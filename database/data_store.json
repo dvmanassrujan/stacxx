@@ -1,13 +1,43 @@
 {
   "users": [
     {
+      "id": 11,
+      "username": "1ks25ic339",
+      "password_hash": "password123",
+      "role": "student",
+      "name": "Kavitha R",
+      "email": "1ks25ic339@ksit.edu.in",
+      "phone": "+91 98450 00000",
+      "avatar_url": "/assets/avatars/student.png"
+    },
+    {
+      "id": 10,
+      "username": "1ks25ic500",
+      "password_hash": "password123",
+      "role": "student",
+      "name": "Kavitha R",
+      "email": "hussain.fullstack@ksit.edu.in",
+      "phone": "+91 98450 77777",
+      "avatar_url": "/assets/avatars/student.png"
+    },
+    {
+      "id": 9,
+      "username": "1ks25ic541",
+      "password_hash": "password123",
+      "role": "student",
+      "name": "Kavitha R",
+      "email": "hussain.fullstack@ksit.edu.in",
+      "phone": "+91 98450 77777",
+      "avatar_url": "/assets/avatars/student.png"
+    },
+    {
       "id": 1,
       "username": "hussain",
       "password_hash": "password123",
       "role": "student",
       "name": "Hussain Basha",
-      "email": "hussain.basha@ksit.edu.in",
-      "phone": "+91 98450 11223",
+      "email": "hussain.fullstack@ksit.edu.in",
+      "phone": "+91 98450 77777",
       "avatar_url": "/assets/avatars/student1.png"
     },
     {
@@ -42,11 +72,11 @@
     },
     {
       "id": 5,
-      "username": "prof_sharma",
+      "username": "prof_kavya",
       "password_hash": "password123",
       "role": "teacher",
-      "name": "Prof. R. Sharma",
-      "email": "r.sharma@ksit.edu.in",
+      "name": "Prof. Kavya K. S. (Math)",
+      "email": "kavya.ks@ksit.edu.in",
       "phone": "+91 98450 55667",
       "avatar_url": "/assets/avatars/teacher1.png"
     },
@@ -72,10 +102,10 @@
     },
     {
       "id": 8,
-      "username": "dr_kumar",
+      "username": "dr_kushal",
       "password_hash": "password123",
       "role": "department",
-      "name": "Dr. R. Kumar",
+      "name": "Dr. Kushal Kumar B. N.",
       "email": "hod.cse@ksit.edu.in",
       "phone": "+91 98450 88990",
       "avatar_url": "/assets/avatars/hod.png"
@@ -92,11 +122,11 @@
       "section": "A",
       "department": "CSE (ICB)",
       "cgpa": 8.12,
-      "present_days": 46,
-      "total_days": 52,
-      "attendance_pct": 88,
+      "present_days": 49,
+      "total_days": 55,
+      "attendance_pct": 89,
       "blood_group": "O+",
-      "mentor_name": "Prof. R. Sharma"
+      "mentor_name": "Prof. Kavya K. S. (Math)"
     },
     {
       "id": 2,
@@ -112,7 +142,7 @@
       "total_days": 52,
       "attendance_pct": 92,
       "blood_group": "B+",
-      "mentor_name": "Prof. R. Sharma"
+      "mentor_name": "Prof. Kavya K. S. (Math)"
     },
     {
       "id": 3,
@@ -128,7 +158,7 @@
       "total_days": 52,
       "attendance_pct": 94,
       "blood_group": "A+",
-      "mentor_name": "Prof. R. Sharma"
+      "mentor_name": "Prof. Kavya K. S. (Math)"
     },
     {
       "id": 4,
@@ -144,7 +174,7 @@
       "total_days": 52,
       "attendance_pct": 98,
       "blood_group": "AB+",
-      "mentor_name": "Prof. R. Sharma"
+      "mentor_name": "Prof. Kavya K. S. (Math)"
     },
     {
       "id": 5,
@@ -160,7 +190,23 @@
       "total_days": 0,
       "attendance_pct": 100,
       "blood_group": "B+",
-      "mentor_name": "Prof. R. Sharma"
+      "mentor_name": "Prof. Kavya K. S. (Math)"
+    },
+    {
+      "id": 6,
+      "user_id": 9,
+      "usn": "1KS25IC024",
+      "name": "k j uday krishna ",
+      "year": "1st Year",
+      "semester": 3,
+      "section": "A",
+      "department": "CSE (ICB)",
+      "cgpa": 8,
+      "present_days": 0,
+      "total_days": 0,
+      "attendance_pct": 100,
+      "blood_group": "B+",
+      "mentor_name": "Prof. Kavya K. S. (Math)"
     }
   ],
   "teachers": [
@@ -168,10 +214,10 @@
       "id": 1,
       "user_id": 5,
       "employee_id": "KSIT-FAC-014",
-      "name": "Prof. R. Sharma",
+      "name": "Prof. Kavya K. S. (Math)",
       "designation": "Assistant Professor",
-      "department": "CSE (ICB)",
-      "qualification": "M.Tech (CSE), Ph.D.",
+      "department": "Mathematics • CSE (ICB)",
+      "qualification": "M.Sc. (Mathematics), Ph.D.",
       "cabin_no": "B-304",
       "total_students": 120,
       "classes_today": 4,
@@ -234,7 +280,7 @@
       "name": "Programming in C",
       "semester": 1,
       "credits": 4,
-      "faculty_name": "Prof. R. Sharma",
+      "faculty_name": "Prof. Kavya K. S. (Math)",
       "classes_conducted": 20,
       "attendance_rate": 94
     },
@@ -244,7 +290,7 @@
       "name": "Engineering Graphics",
       "semester": 1,
       "credits": 3,
-      "faculty_name": "Prof. R. Sharma",
+      "faculty_name": "Prof. Kavya K. S. (Math)",
       "classes_conducted": 20,
       "attendance_rate": 90
     },
@@ -412,7 +458,7 @@
       "external_url": null,
       "file_size": "3.8 MB",
       "file_type": "PDF",
-      "uploaded_by": "Prof. R. Sharma",
+      "uploaded_by": "Prof. Kavya K. S. (Math)",
       "downloads_count": 194,
       "created_at": "2025-09-22"
     },
@@ -460,7 +506,7 @@
       "external_url": null,
       "file_size": "8.6 MB",
       "file_type": "PDF",
-      "uploaded_by": "Prof. R. Sharma",
+      "uploaded_by": "Prof. Kavya K. S. (Math)",
       "downloads_count": 246,
       "created_at": "2025-09-18"
     },
@@ -476,7 +522,7 @@
       "external_url": "https://ieeexplore.ieee.org",
       "file_size": "1.2 MB",
       "file_type": "PDF",
-      "uploaded_by": "Prof. R. Sharma",
+      "uploaded_by": "Prof. Kavya K. S. (Math)",
       "downloads_count": 54,
       "created_at": "2025-09-24"
     },
@@ -492,7 +538,7 @@
       "external_url": "https://nptel.ac.in/courses/106105171",
       "file_size": "Online",
       "file_type": "LINK",
-      "uploaded_by": "Prof. R. Sharma",
+      "uploaded_by": "Prof. Kavya K. S. (Math)",
       "downloads_count": 142,
       "created_at": "2025-09-10"
     },
@@ -520,7 +566,7 @@
       "subject_name": "Programming in C",
       "subject_id": 3,
       "semester": 1,
-      "faculty_name": "Prof. R. Sharma",
+      "faculty_name": "Prof. Kavya K. S. (Math)",
       "description": "Implement dynamic 2D matrices, pointer arithmetic, and struct serialization without stdlib string helpers.",
       "created_date": "2025-09-20",
       "deadline": "2025-10-04",
@@ -528,7 +574,7 @@
       "status": "submitted",
       "submitted_date": "2025-09-27",
       "marks_obtained": null,
-      "feedback": "Under review by Prof. Sharma"
+      "feedback": "Under review by Prof. Kavya K. S."
     },
     {
       "id": 2,
@@ -588,7 +634,7 @@
       "time_slot": "10:00 AM - 12:00 PM",
       "room_no": "B-Block Room 204",
       "max_marks": 50,
-      "status": "Scheduled"
+      "status": "Approved"
     },
     {
       "id": 2,
@@ -651,6 +697,15 @@
       "marks_obtained": 42,
       "max_marks": 50,
       "grade": "A+"
+    },
+    {
+      "subject": "Mathematics",
+      "code": "22CSE11",
+      "exam_type": "Internal Assessment 1",
+      "scored": 25,
+      "max": 25,
+      "grade": "O",
+      "status": "Entered (Pending Approval)"
     }
   ],
   "notices": [
@@ -718,7 +773,7 @@
       "is_new": true,
       "target_role": "teacher",
       "date_posted": "28 Sep 2025",
-      "author": "Dr. R. Kumar (HOD)"
+      "author": "Dr. Kushal Kumar B. N."
     }
   ],
   "events": [
@@ -734,7 +789,9 @@
       "time_range": "10:00 AM - 12:00 PM",
       "venue": "Seminar Hall",
       "organizer": "CSE (ICB) Dept",
-      "description": "Distinguished industry lecture on Modern Large Language Models, Multi-Agent Systems, and practical deployment."
+      "description": "Distinguished industry lecture on Modern Large Language Models, Multi-Agent Systems, and practical deployment.",
+      "registered_count": 33,
+      "is_registered": true
     },
     {
       "id": 2,
@@ -1184,7 +1241,7 @@
       "project_title": "CSE (ICB) Department Integrated Academic and Information Portal",
       "team_name": "STACK X",
       "team_members": "D V Manas Srujan (1KS25IC015), Hussain Basha (1KS25IC023), M Pavani Gowda (1KS25IC033), Purvi B V (1KS25IC045)",
-      "mentor": "Prof. R. Sharma & Dr. R. Kumar (HOD)",
+      "mentor": "Prof. Kavya K. S. (Math)",
       "status": "In Progress (Phase 2 Live Deployment)",
       "objective": "Centralize all fragmented notes, syllabus, PYQ papers, attendance tracking, and announcements into a unified department portal for students and faculty.",
       "presentation_date": "2026-09-29"
@@ -1192,12 +1249,120 @@
   ],
   "notifications": [
     {
+      "id": 15,
+      "user_id": 10,
+      "title": "Registered: Technical Talk - AI & ML",
+      "message": "You are confirmed for Technical Talk - AI & ML at Seminar Hall on 2025-10-02.",
+      "type": "event",
+      "is_read": true,
+      "time": "Just now"
+    },
+    {
+      "id": 14,
+      "user_id": 1,
+      "title": "Notice: VTU Exam Timetable Draft",
+      "message": "Prof. Kavya K. S. (Math) released a new Exams notice.",
+      "type": "notice",
+      "is_read": true,
+      "time": "Just now"
+    },
+    {
+      "id": 13,
+      "user_id": 1,
+      "title": "New Study Material Available",
+      "message": "Calculus Double Integrals Lecture Notes has been uploaded to Academic Hub.",
+      "type": "resource",
+      "is_read": true,
+      "time": "Just now"
+    },
+    {
+      "id": 12,
+      "user_id": 1,
+      "title": "New Assignment: Dynamic Data Structures Task",
+      "message": "Prof. Kavya K. S. (Math) published Dynamic Data Structures Task for Programming in C due on 2025-10-20.",
+      "type": "assignment",
+      "is_read": true,
+      "time": "Just now"
+    },
+    {
+      "id": 11,
+      "user_id": 9,
+      "title": "Registered: Technical Talk - AI & ML",
+      "message": "You are confirmed for Technical Talk - AI & ML at Seminar Hall on 2025-10-02.",
+      "type": "event",
+      "is_read": true,
+      "time": "Just now"
+    },
+    {
+      "id": 10,
+      "user_id": 1,
+      "title": "Notice: VTU Exam Timetable Draft",
+      "message": "Prof. Kavya K. S. (Math) released a new Exams notice.",
+      "type": "notice",
+      "is_read": true,
+      "time": "Just now"
+    },
+    {
+      "id": 9,
+      "user_id": 1,
+      "title": "New Study Material Available",
+      "message": "Calculus Double Integrals Lecture Notes has been uploaded to Academic Hub.",
+      "type": "resource",
+      "is_read": true,
+      "time": "Just now"
+    },
+    {
+      "id": 8,
+      "user_id": 1,
+      "title": "New Assignment: Dynamic Data Structures Task",
+      "message": "Prof. Kavya K. S. (Math) published Dynamic Data Structures Task for Programming in C due on 2025-10-20.",
+      "type": "assignment",
+      "is_read": true,
+      "time": "Just now"
+    },
+    {
+      "id": 7,
+      "user_id": 1,
+      "title": "Registered: Technical Talk - AI & ML",
+      "message": "You are confirmed for Technical Talk - AI & ML at Seminar Hall on 2025-10-02.",
+      "type": "event",
+      "is_read": true,
+      "time": "Just now"
+    },
+    {
+      "id": 6,
+      "user_id": 1,
+      "title": "Notice: VTU Exam Timetable Draft",
+      "message": "Prof. R. Sharma released a new Exams notice.",
+      "type": "notice",
+      "is_read": true,
+      "time": "Just now"
+    },
+    {
+      "id": 5,
+      "user_id": 1,
+      "title": "New Study Material Available",
+      "message": "Calculus Double Integrals Lecture Notes has been uploaded to Academic Hub.",
+      "type": "resource",
+      "is_read": true,
+      "time": "Just now"
+    },
+    {
+      "id": 4,
+      "user_id": 1,
+      "title": "New Assignment: Dynamic Data Structures Task",
+      "message": "Prof. R. Sharma published Dynamic Data Structures Task for Programming in C due on 2025-10-20.",
+      "type": "assignment",
+      "is_read": true,
+      "time": "Just now"
+    },
+    {
       "id": 1,
       "user_id": 1,
       "title": "Assignment 1 Released",
       "message": "Prof. R. Sharma posted Assignment 1 for Programming in C due on Oct 04.",
       "type": "assignment",
-      "is_read": false,
+      "is_read": true,
       "time": "10 mins ago"
     },
     {
@@ -1206,7 +1371,7 @@
       "title": "Internal Test 1 Scheduled",
       "message": "Exam schedule for 1st Year CSE (ICB) has been announced.",
       "type": "exam",
-      "is_read": false,
+      "is_read": true,
       "time": "2 hours ago"
     },
     {
@@ -1215,7 +1380,7 @@
       "title": "New Study Material Uploaded",
       "message": "Dr. S. Ramesh uploaded Calculus Module 1 Notes to Academic Hub.",
       "type": "resource",
-      "is_read": false,
+      "is_read": true,
       "time": "Yesterday"
     }
   ]

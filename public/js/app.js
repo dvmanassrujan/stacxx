@@ -6,7 +6,7 @@
 
 // Application State
 const AppState = {
-  currentRole: 'student', // 'student' | 'teacher' | 'department' | 'survey'
+  currentRole: 'student', // 'student' | 'teacher' | 'department'
   currentTab: 'dashboard',
   user: null,
   profile: null,
@@ -32,7 +32,6 @@ const Icons = {
   faculty: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
   students: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>`,
   reports: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>`,
-  survey: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>`,
   database: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>`,
   search: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`,
   bell: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>`,
@@ -47,21 +46,17 @@ const Icons = {
 const NavigationMenus = {
   student: [
     { id: 'dashboard', label: 'Dashboard', icon: 'dashboard' },
-    { id: 'academics', label: 'Academics & Study Hub', icon: 'academics' },
+    { id: 'academics', label: 'Academic & Study Hub', icon: 'academics' },
     { id: 'attendance', label: 'Attendance', icon: 'attendance' },
-    { id: 'assignments', label: 'Assignments', icon: 'assignments', badge: '3' },
     { id: 'examination', label: 'Examination', icon: 'examination' },
     { id: 'notices', label: 'Notices & Announcements', icon: 'notices' },
     { id: 'events', label: 'Events & Activities', icon: 'events' },
-    { id: 'library', label: 'Library', icon: 'library' },
-    { id: 'placements', label: 'Placement & Career', icon: 'placement' },
-    { id: 'community', label: 'Community Projects', icon: 'community' },
     { id: 'profile', label: 'Profile & Settings', icon: 'settings' }
   ],
   teacher: [
     { id: 'dashboard', label: 'Dashboard', icon: 'dashboard' },
     { id: 'attendance_record', label: 'Record Attendance', icon: 'attendance' },
-    { id: 'academics', label: 'Upload Study Materials', icon: 'upload' },
+    { id: 'academics', label: 'Resource Library', icon: 'academics' },
     { id: 'assignments_manage', label: 'Manage Assignments', icon: 'assignments', badge: '18' },
     { id: 'marks_manage', label: 'Manage Marks', icon: 'examination' },
     { id: 'notices_manage', label: 'Post Notice / Circular', icon: 'notices' },
@@ -74,15 +69,9 @@ const NavigationMenus = {
     { id: 'students_list', label: 'Students Management', icon: 'students' },
     { id: 'faculty_list', label: 'Faculty Management', icon: 'faculty' },
     { id: 'attendance_analytics', label: 'Attendance Analytics', icon: 'attendance' },
-    { id: 'academics', label: 'Resource Library', icon: 'academics' },
     { id: 'exam_approvals', label: 'Examination & Approvals', icon: 'examination', badge: '7' },
     { id: 'notices_manage', label: 'Notices & Circulars', icon: 'notices' },
-    { id: 'reports_dept', label: 'NBA / NAAC Reports', icon: 'reports' },
     { id: 'db_settings', label: 'Database & System Settings', icon: 'database' }
-  ],
-  survey: [
-    { id: 'survey_results', label: 'Survey Results & Analysis', icon: 'survey' },
-    { id: 'community', label: 'CBP Project Presentation', icon: 'community' }
   ]
 };
 
@@ -94,10 +83,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderApp();
 });
 
+// Universal API Client with automatic Bearer Token & Role headers
+async function apiFetch(url, options = {}) {
+  options.headers = options.headers || {};
+  if (AppState.token) {
+    options.headers['Authorization'] = `Bearer ${AppState.token}`;
+  }
+  if (AppState.currentRole) {
+    options.headers['X-Demo-Role'] = AppState.currentRole;
+  }
+  return fetch(url, options);
+}
+
 // Switch Role Function
 async function switchRole(role, triggerRender = true) {
   AppState.currentRole = role;
-  AppState.currentTab = role === 'survey' ? 'survey_results' : 'dashboard';
+  AppState.currentTab = 'dashboard';
 
   try {
     const res = await fetch('/api/auth/login', {
@@ -106,6 +107,10 @@ async function switchRole(role, triggerRender = true) {
       body: JSON.stringify({ role })
     });
     const data = await res.json();
+    if (data.token) {
+      AppState.token = data.token;
+      localStorage.setItem('ksit_portal_token', data.token);
+    }
     AppState.user = data.user;
     AppState.profile = data.profile;
   } catch (e) {
@@ -225,15 +230,10 @@ function renderSidebar() {
         <h4>Educate • Empower</h4>
         <p>Build tomorrow. KSIT | CSE (ICB)</p>
       `;
-    } else if (AppState.currentRole === 'department') {
+    } else {
       bottomCard.innerHTML = `
         <h4>Together for Better</h4>
         <p>CSE (ICB) Department, KSIT, Bengaluru</p>
-      `;
-    } else {
-      bottomCard.innerHTML = `
-        <h4>CBP Project 2026</h4>
-        <p>Survey-Driven Department Portal</p>
       `;
     }
   }
@@ -254,24 +254,27 @@ function renderTopHeaderMeta() {
 
   let roleLabel = 'Student';
   let subText = '1st Year • CSE (ICB)';
+  let displayName = AppState.user.name;
 
   if (AppState.currentRole === 'teacher') {
     roleLabel = 'Faculty';
-    subText = 'Assistant Professor';
+    subText = 'Assistant Professor (Math)';
+    displayName = AppState.user?.name || 'Prof. Kavya K. S. (Math)';
   } else if (AppState.currentRole === 'department') {
     roleLabel = 'HOD';
-    subText = 'CSE (ICB) Department';
-  } else if (AppState.currentRole === 'survey') {
-    roleLabel = 'CBP Team';
-    subText = 'Survey Findings';
+    subText = 'Head of Department • CSE (ICB)';
+    displayName = AppState.user?.name || 'Dr. Kushal Kumar B. N.';
   }
+
+  const cleanName = displayName.replace(/^Prof\.?\s*|^Dr\.?\s*/i, '');
+  const initials = cleanName.split(/\s+/).map(n => n[0]).filter(Boolean).join('').slice(0, 2).toUpperCase() || 'KS';
 
   profileDiv.innerHTML = `
     <div class="user-avatar-img" style="display:flex;align-items:center;justify-content:center;background:#2563eb;color:#fff;font-weight:700;">
-      ${AppState.user.name.split(' ').map(n=>n[0]).join('').slice(0, 2)}
+      ${initials}
     </div>
     <div class="user-text-meta">
-      <div class="name">${AppState.user.name}</div>
+      <div class="name">${displayName}</div>
       <div class="role-sub">${subText}</div>
     </div>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14" style="color:#94a3b8;"><polyline points="6 9 12 15 18 9"/></svg>
@@ -291,13 +294,11 @@ async function renderMainView() {
         await renderStudentDashboard(container);
         break;
       case 'academics':
-        await renderAcademicsHub(container);
+      case 'library':
+        await renderAcademicsHub(container, false);
         break;
       case 'attendance':
         await renderStudentAttendance(container);
-        break;
-      case 'assignments':
-        await renderStudentAssignments(container);
         break;
       case 'examination':
         await renderStudentExamination(container);
@@ -307,15 +308,6 @@ async function renderMainView() {
         break;
       case 'events':
         await renderEventsView(container);
-        break;
-      case 'library':
-        await renderLibraryView(container);
-        break;
-      case 'placements':
-        await renderPlacementsView(container);
-        break;
-      case 'community':
-        await renderCommunityView(container);
         break;
       case 'profile':
         await renderProfileView(container);
@@ -369,17 +361,11 @@ async function renderMainView() {
       case 'attendance_analytics':
         await renderDeptAttendanceAnalytics(container);
         break;
-      case 'academics':
-        await renderAcademicsHub(container, true);
-        break;
       case 'exam_approvals':
         await renderDeptExamApprovals(container);
         break;
       case 'notices_manage':
         await renderTeacherNoticesManage(container);
-        break;
-      case 'reports_dept':
-        await renderDeptReports(container);
         break;
       case 'db_settings':
         renderDbSettingsView(container);
@@ -387,8 +373,6 @@ async function renderMainView() {
       default:
         await renderDepartmentDashboard(container);
     }
-  } else if (AppState.currentRole === 'survey') {
-    await renderSurveyView(container);
   }
 }
 
@@ -459,18 +443,6 @@ async function renderStudentDashboard(container) {
         </div>
         <div class="metric-arrow">${Icons.chevronRight}</div>
       </div>
-
-      <div class="metric-card" onclick="navigateToTab('assignments')">
-        <div class="metric-left">
-          <div class="metric-icon-box red">${Icons.assignments}</div>
-          <div class="metric-info">
-            <div class="label">Pending Assignments</div>
-            <div class="value">${d.summaryCards.pendingAssignments.count}</div>
-            <div class="sublabel">${d.summaryCards.pendingAssignments.sublabel}</div>
-          </div>
-        </div>
-        <div class="metric-arrow">${Icons.chevronRight}</div>
-      </div>
     </div>
 
     <!-- 3-Column Dashboard Grid -->
@@ -519,7 +491,6 @@ async function renderStudentDashboard(container) {
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="18" height="18" style="color:#eab308;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
               <div class="card-title">Quick Links</div>
             </div>
-            <a class="view-all-link" onclick="navigateToTab('academics')">View All &rarr;</a>
           </div>
 
           <div class="quick-links-grid">
@@ -532,20 +503,8 @@ async function renderStudentDashboard(container) {
               <span>Exam Results</span>
             </div>
             <div class="quick-link-btn" onclick="navigateToTab('academics')">
-              <div class="quick-icon-wrap" style="background:#3b82f6;">${Icons.academics}</div>
-              <span>Download Notes</span>
-            </div>
-            <div class="quick-link-btn" onclick="navigateToTab('library')">
               <div class="quick-icon-wrap" style="background:#f97316;">${Icons.library}</div>
               <span>Library Portal</span>
-            </div>
-            <div class="quick-link-btn" onclick="showToast('Fee portal: All current semester dues cleared.')">
-              <div class="quick-icon-wrap" style="background:#ec4899;">₹</div>
-              <span>Fee Payment</span>
-            </div>
-            <div class="quick-link-btn" onclick="showToast('BMTC Bus Pass verification status: Active.')">
-              <div class="quick-icon-wrap" style="background:#06b6d4;">🚌</div>
-              <span>Bus Pass</span>
             </div>
           </div>
         </div>
@@ -576,7 +535,7 @@ async function renderStudentDashboard(container) {
         </div>
       </div>
 
-      <!-- Right Column: Announcements & Progress -->
+      <!-- Right Column: Announcements -->
       <div>
         <div class="card">
           <div class="card-header">
@@ -599,42 +558,68 @@ async function renderStudentDashboard(container) {
             `).join('')}
           </div>
         </div>
-
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title-group">
-              ${Icons.reports}
-              <div class="card-title">Your Progress</div>
-            </div>
-            <a class="view-all-link" onclick="navigateToTab('examination')">View Details &rarr;</a>
-          </div>
-
-          <div class="progress-list">
-            ${d.progress.map(p => `
-              <div class="progress-item-wrap">
-                <div class="progress-header">
-                  <span>${p.name}</span>
-                  <span style="color:${p.color};">${p.percentage}%</span>
-                </div>
-                <div class="progress-bar-bg">
-                  <div class="progress-fill" style="width:${p.percentage}%; background-color:${p.color};"></div>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
       </div>
     </div>
   `;
 }
 
-// ---------------- 2. ACADEMIC RESOURCE HUB (Centralized Materials) ----------------
+// ---------------- 2. ACADEMIC RESOURCE HUB (Centralized Materials / Library) ----------------
 async function renderAcademicsHub(container, isTeacherOrDept = false) {
+  if (!isTeacherOrDept) {
+    // Student View: Library Integrated into Academic & Study Hub
+    const res = await fetch('/api/library');
+    const books = await res.json();
+
+    container.innerHTML = `
+      <div style="margin-bottom:20px;">
+        <h2 style="font-size:22px;font-weight:800;color:#0f172a;">Academic & Study Hub — Library Catalogue</h2>
+        <p style="font-size:13px;color:#64748b;">Check textbook rack locations, shelf availability, and access digital eBooks.</p>
+      </div>
+
+      <div class="card table-responsive">
+        <table class="custom-table" id="academicLibraryTable">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Author</th>
+              <th>ISBN</th>
+              <th>Department / Domain</th>
+              <th>Semester</th>
+              <th>Available Copies</th>
+              <th>Physical Location</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${books.map(b => `
+              <tr>
+                <td><strong>${b.title}</strong></td>
+                <td>${b.author}</td>
+                <td><code>${b.isbn}</code></td>
+                <td>${b.category}</td>
+                <td>Sem ${b.semester}</td>
+                <td><span class="status-pill good">${b.available_copies} Copies</span></td>
+                <td><span class="room-badge">${b.rack_no}</span></td>
+                <td>
+                  <button class="btn btn-secondary" style="font-size:11px;padding:4px 10px;" onclick="showToast('Digital eBook link opened!')">
+                    View eBook &nearr;
+                  </button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+    return;
+  }
+
+  // Teacher View: Resource Library with Upload Capabilities
   container.innerHTML = `
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
       <div>
-        <h2 style="font-size:22px;font-weight:800;color:#0f172a;">Centralized Academic Resource Hub</h2>
-        <p style="font-size:13px;color:#64748b;">Solve scattered WhatsApp notes, lost PDFs & syllabus — all in one searchable portal.</p>
+        <h2 style="font-size:22px;font-weight:800;color:#0f172a;">Faculty Resource Library</h2>
+        <p style="font-size:13px;color:#64748b;">Centralized departmental repository for lecture notes, syllabus, PYQ papers & academic content.</p>
       </div>
       <div>
         <button class="btn btn-primary" onclick="openUploadResourceModal()">
@@ -743,24 +728,53 @@ async function loadResourcesList() {
           <div>By ${r.uploaded_by} • ${r.file_size}</div>
         </div>
 
-        <div>
+        <div style="display:flex;align-items:center;gap:6px;">
           ${r.external_url ? `
             <a href="${r.external_url}" target="_blank" class="btn btn-secondary" style="font-size:11.5px;padding:6px 12px;">
               Access Link &nearr;
             </a>
           ` : `
-            <button class="btn btn-primary" style="font-size:11.5px;padding:6px 12px;" onclick="downloadResource('${r.title}')">
+            <button class="btn btn-primary" style="font-size:11.5px;padding:6px 12px;" onclick="downloadResource(${r.id}, '${r.title.replace(/'/g, "\\'")}')">
               ${Icons.download} Download
             </button>
           `}
+          ${(AppState.currentRole === 'teacher' || AppState.currentRole === 'department') ? `
+            <button class="btn btn-secondary" style="font-size:11.5px;padding:6px 10px;color:#ef4444;" title="Delete Resource" onclick="deleteResource(${r.id})">
+              Delete
+            </button>
+          ` : ''}
         </div>
       </div>
     </div>
   `).join('');
 }
 
-function downloadResource(title) {
-  showToast(`Downloading: "${title}" (PDF)`);
+async function downloadResource(id, title) {
+  try {
+    const res = await apiFetch(`/api/resources/${id}/download`);
+    const data = await res.json();
+    showToast(`Downloading: "${title}" (PDF)`);
+    const a = document.createElement('a');
+    a.href = data.file_url || '#';
+    a.download = `${title.replace(/[^a-zA-Z0-9_-]/g, '_')}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } catch (e) {
+    showToast(`Downloading: "${title}" (PDF)`);
+  }
+}
+
+async function deleteResource(id) {
+  if (!confirm('Are you sure you want to delete this study material?')) return;
+  try {
+    const res = await apiFetch(`/api/resources/${id}`, { method: 'DELETE' });
+    const d = await res.json();
+    showToast(d.message || 'Resource deleted successfully!');
+    await loadResourcesList();
+  } catch (err) {
+    showToast('Failed to delete resource: ' + err.message);
+  }
 }
 
 // ---------------- 3. STUDENT ATTENDANCE VIEW ----------------
@@ -1030,8 +1044,8 @@ async function renderEventsView(container) {
               <div>📅 <strong>${e.event_date}</strong> (${e.time_range})</div>
               <div>📍 <strong>${e.venue}</strong></div>
             </div>
-            <button class="btn btn-primary" style="width:100%;font-size:12px;" onclick="showToast('Successfully registered for ${e.title}!')">
-              Register / RSVP
+            <button class="btn btn-primary" style="width:100%;font-size:12px;" onclick="registerForEvent(${e.id})">
+              ${e.is_registered ? '✔ Registered (Pass Confirmed)' : 'Register / RSVP'}
             </button>
           </div>
         </div>
@@ -1188,15 +1202,8 @@ async function renderCommunityView(container) {
       </div>
 
       <div style="margin-top:20px;padding-top:16px;border-top:1px solid #e2e8f0;font-size:13px;color:#475569;">
-        <strong>Project Mentors:</strong> Prof. R. Sharma (Assistant Professor) & Dr. R. Kumar (Head of Department, CSE ICB)
+        <strong>Project Mentors:</strong> Prof. Kavya K. S. (Assistant Professor)
       </div>
-    </div>
-
-    <!-- Quick Action to View Survey Findings -->
-    <div style="text-align:center;margin-top:20px;">
-      <button class="btn btn-primary" onclick="switchRole('survey')">
-        ${Icons.survey} View Community Survey Findings & Data Analysis &rarr;
-      </button>
     </div>
   `;
 }
@@ -1224,30 +1231,32 @@ async function renderProfileView(container) {
         </div>
       </div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
-        <div class="form-group">
-          <label>Department</label>
-          <input type="text" class="form-control" value="Computer Science & Engineering (ICB)" readonly>
+      <form onsubmit="handleProfileSave(event)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+          <div class="form-group">
+            <label>Department</label>
+            <input type="text" class="form-control" value="Computer Science & Engineering (ICB)" readonly>
+          </div>
+          <div class="form-group">
+            <label>College</label>
+            <input type="text" class="form-control" value="K. S. Institute of Technology, Bengaluru" readonly>
+          </div>
+          <div class="form-group">
+            <label>Contact Phone</label>
+            <input type="text" id="profilePhoneInput" class="form-control" value="${u.phone || '+91 98450 11223'}" required>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="profileEmailInput" class="form-control" value="${u.email || 'user@ksit.edu.in'}" required>
+          </div>
         </div>
-        <div class="form-group">
-          <label>College</label>
-          <input type="text" class="form-control" value="K. S. Institute of Technology, Bengaluru" readonly>
-        </div>
-        <div class="form-group">
-          <label>Contact Phone</label>
-          <input type="text" class="form-control" value="${u.phone || '+91 98450 11223'}">
-        </div>
-        <div class="form-group">
-          <label>Academic Year</label>
-          <input type="text" class="form-control" value="2025 - 2026" readonly>
-        </div>
-      </div>
 
-      <div style="border-top:1px solid #f1f5f9;padding-top:16px;display:flex;justify-content:flex-end;">
-        <button class="btn btn-primary" onclick="showToast('Profile information saved!')">
-          Save Changes
-        </button>
-      </div>
+        <div style="border-top:1px solid #f1f5f9;padding-top:16px;display:flex;justify-content:flex-end;">
+          <button type="submit" class="btn btn-primary">
+            Save Changes
+          </button>
+        </div>
+      </form>
     </div>
   `;
 }
@@ -1262,7 +1271,7 @@ async function renderTeacherDashboard(container) {
     <div class="welcome-hero-banner">
       <div class="hero-content">
         <div class="hero-subtitle">FACULTY DASHBOARD</div>
-        <div class="hero-title">Good Morning, ${d.teacher.name}</div>
+        <div class="hero-title">Good Morning, ${d.teacher?.name ? (d.teacher.name.includes('Math') ? d.teacher.name : `${d.teacher.name} (Math)`) : 'Prof. Kavya K. S. (Math)'}</div>
         <div class="hero-tagline">Here's what's happening in your department today.</div>
         <div class="hero-quote">"Better Students, Better Future KSIT"</div>
       </div>
@@ -1395,57 +1404,9 @@ async function renderTeacherDashboard(container) {
             </div>
           </div>
         </div>
-
-        <!-- Attendance Trend Chart -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Attendance Overview (Aug - Dec)</div>
-            <span style="font-size:11px;color:#64748b;">Class vs Dept Avg</span>
-          </div>
-
-          <!-- SVG Interactive Line Graph -->
-          <div style="padding:10px 0;">
-            <svg viewBox="0 0 360 140" style="width:100%;height:140px;overflow:visible;">
-              <!-- Grid lines -->
-              <line x1="30" y1="120" x2="350" y2="120" stroke="#e2e8f0" stroke-width="1"/>
-              <line x1="30" y1="80" x2="350" y2="80" stroke="#e2e8f0" stroke-width="1"/>
-              <line x1="30" y1="40" x2="350" y2="40" stroke="#e2e8f0" stroke-width="1"/>
-
-              <!-- Labels -->
-              <text x="5" y="125" font-size="10" fill="#94a3b8">25%</text>
-              <text x="5" y="85" font-size="10" fill="#94a3b8">50%</text>
-              <text x="5" y="45" font-size="10" fill="#94a3b8">75%</text>
-              <text x="5" y="15" font-size="10" fill="#94a3b8">100%</text>
-
-              <!-- Month X-Labels -->
-              <text x="50" y="138" font-size="10" fill="#64748b">Aug</text>
-              <text x="120" y="138" font-size="10" fill="#64748b">Sep</text>
-              <text x="190" y="138" font-size="10" fill="#64748b">Oct</text>
-              <text x="260" y="138" font-size="10" fill="#64748b">Nov</text>
-              <text x="330" y="138" font-size="10" fill="#64748b">Dec</text>
-
-              <!-- Line 1: Dept Avg (Gray/Slate) -->
-              <polyline fill="none" stroke="#94a3b8" stroke-width="2" points="50,85 120,68 190,65 260,60 330,58"/>
-
-              <!-- Line 2: Your Classes (Bright Blue) -->
-              <polyline fill="none" stroke="#2563eb" stroke-width="3" points="50,75 120,38 190,34 260,26 330,24"/>
-
-              <!-- Data Dots -->
-              <circle cx="50" cy="75" r="4" fill="#2563eb"/>
-              <circle cx="120" cy="38" r="4" fill="#2563eb"/>
-              <circle cx="190" cy="34" r="4" fill="#2563eb"/>
-              <circle cx="260" cy="26" r="4" fill="#2563eb"/>
-              <circle cx="330" cy="24" r="4" fill="#2563eb"/>
-            </svg>
-            <div style="display:flex;justify-content:center;gap:20px;font-size:11px;margin-top:8px;">
-              <span style="color:#2563eb;font-weight:700;">● Your Classes (92%)</span>
-              <span style="color:#94a3b8;font-weight:600;">● Department Avg (72%)</span>
-            </div>
-          </div>
-        </div>
       </div>
 
-      <!-- Right: Quick Actions & Evaluations -->
+      <!-- Right: Quick Actions -->
       <div>
         <div class="card">
           <div class="card-header">
@@ -1464,10 +1425,10 @@ async function renderTeacherDashboard(container) {
               <span>&rarr;</span>
             </button>
 
-            <button class="btn btn-secondary" style="justify-content:space-between;padding:12px 16px;" onclick="openUploadResourceModal()">
+            <button class="btn btn-secondary" style="justify-content:space-between;padding:12px 16px;" onclick="navigateToTab('academics')">
               <span style="display:flex;align-items:center;gap:10px;">
-                <span style="color:#8b5cf6;">${Icons.upload}</span>
-                <span>Upload Study Materials</span>
+                <span style="color:#8b5cf6;">${Icons.academics}</span>
+                <span>Resource Library</span>
               </span>
               <span>&rarr;</span>
             </button>
@@ -1495,34 +1456,6 @@ async function renderTeacherDashboard(container) {
               </span>
               <span>&rarr;</span>
             </button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Upcoming Evaluations</div>
-            <a class="view-all-link" onclick="navigateToTab('assignments_manage')">View All &rarr;</a>
-          </div>
-
-          <div class="table-responsive">
-            <table class="custom-table" style="font-size:11.5px;">
-              <thead>
-                <tr>
-                  <th>Date & Time</th>
-                  <th>Subject</th>
-                  <th>Type</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${d.upcomingEvaluations.map(e => `
-                  <tr>
-                    <td>${e.datetime}</td>
-                    <td><strong>${e.subject}</strong></td>
-                    <td><span class="status-pill upcoming">${e.type}</span></td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
           </div>
         </div>
       </div>
@@ -1682,7 +1615,7 @@ async function renderDepartmentDashboard(container) {
     <div class="welcome-hero-banner">
       <div class="hero-content">
         <div class="hero-subtitle">ADMINISTRATION & HOD PORTAL</div>
-        <div class="hero-title">Welcome back,<br>${d.admin.name}</div>
+        <div class="hero-title">Welcome back,<br>${d.admin?.name || 'Dr. Kushal Kumar B. N.'}</div>
         <div class="hero-tagline">${d.admin.title}</div>
         <div class="hero-quote">${d.admin.quote}</div>
       </div>
@@ -1722,7 +1655,7 @@ async function renderDepartmentDashboard(container) {
         </div>
       </div>
 
-      <div class="metric-card" onclick="navigateToTab('academics')">
+      <div class="metric-card" style="cursor:default;">
         <div class="metric-left">
           <div class="metric-icon-box purple">${Icons.academics}</div>
           <div class="metric-info">
@@ -1758,7 +1691,7 @@ async function renderDepartmentDashboard(container) {
 
     <!-- Center Department Grid -->
     <div class="dashboard-grid-3col">
-      <!-- Left Column: Class & Subject Overview Table + Student Strength Trend -->
+      <!-- Left Column: Class & Subject Overview Table -->
       <div>
         <div class="card">
           <div class="card-header">
@@ -1787,50 +1720,6 @@ async function renderDepartmentDashboard(container) {
                 `).join('')}
               </tbody>
             </table>
-          </div>
-        </div>
-
-        <!-- Student Strength Trend (Sem 1 to Sem 8) Line Graph -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Student Strength Trend (Sem 1 to Sem 8)</div>
-            <span style="font-size:11px;color:#64748b;">420 Enrolled</span>
-          </div>
-
-          <div style="padding:10px 0;">
-            <svg viewBox="0 0 360 140" style="width:100%;height:140px;overflow:visible;">
-              <line x1="30" y1="120" x2="350" y2="120" stroke="#e2e8f0" stroke-width="1"/>
-              <line x1="30" y1="80" x2="350" y2="80" stroke="#e2e8f0" stroke-width="1"/>
-              <line x1="30" y1="40" x2="350" y2="40" stroke="#e2e8f0" stroke-width="1"/>
-
-              <!-- Trend Line -->
-              <polyline fill="none" stroke="#2563eb" stroke-width="3" points="40,105 80,90 120,85 160,75 200,55 240,45 280,30 320,25"/>
-              <polyline fill="none" stroke="#10b981" stroke-width="2" points="40,120 80,120 120,120 160,120 200,120 240,105 280,75 320,55"/>
-
-              <!-- Dots -->
-              <circle cx="40" cy="105" r="3.5" fill="#2563eb"/>
-              <circle cx="80" cy="90" r="3.5" fill="#2563eb"/>
-              <circle cx="120" cy="85" r="3.5" fill="#2563eb"/>
-              <circle cx="160" cy="75" r="3.5" fill="#2563eb"/>
-              <circle cx="200" cy="55" r="3.5" fill="#2563eb"/>
-              <circle cx="240" cy="45" r="3.5" fill="#2563eb"/>
-              <circle cx="280" cy="30" r="3.5" fill="#2563eb"/>
-              <circle cx="320" cy="25" r="3.5" fill="#2563eb"/>
-
-              <!-- Labels -->
-              <text x="35" y="136" font-size="9" fill="#64748b">Sem 1</text>
-              <text x="75" y="136" font-size="9" fill="#64748b">Sem 2</text>
-              <text x="115" y="136" font-size="9" fill="#64748b">Sem 3</text>
-              <text x="155" y="136" font-size="9" fill="#64748b">Sem 4</text>
-              <text x="195" y="136" font-size="9" fill="#64748b">Sem 5</text>
-              <text x="235" y="136" font-size="9" fill="#64748b">Sem 6</text>
-              <text x="275" y="136" font-size="9" fill="#64748b">Sem 7</text>
-              <text x="315" y="136" font-size="9" fill="#64748b">Sem 8</text>
-            </svg>
-            <div style="display:flex;justify-content:center;gap:20px;font-size:11px;margin-top:6px;">
-              <span style="color:#2563eb;font-weight:700;">● Total Students (420)</span>
-              <span style="color:#10b981;font-weight:700;">● Placed Students (210)</span>
-            </div>
           </div>
         </div>
       </div>
@@ -1932,14 +1821,6 @@ async function renderDepartmentDashboard(container) {
               <span>&rarr;</span>
             </button>
 
-            <button class="btn btn-secondary" style="justify-content:space-between;padding:11px 14px;" onclick="navigateToTab('reports_dept')">
-              <span style="display:flex;align-items:center;gap:10px;">
-                <span style="color:#06b6d4;">${Icons.reports}</span>
-                <span>Generate NAAC Reports</span>
-              </span>
-              <span>&rarr;</span>
-            </button>
-
             <button class="btn btn-secondary" style="justify-content:space-between;padding:11px 14px;" onclick="openPostNoticeModal()">
               <span style="display:flex;align-items:center;gap:10px;">
                 <span style="color:#f97316;">${Icons.notices}</span>
@@ -1968,78 +1849,6 @@ async function renderDepartmentDashboard(container) {
             `).join('')}
           </div>
         </div>
-      </div>
-    </div>
-  `;
-}
-
-// ---------------- 15. DEDICATED SURVEY & CBP INSIGHTS VIEW ----------------
-async function renderSurveyView(container) {
-  const res = await fetch('/api/survey/results');
-  const d = await res.json();
-
-  container.innerHTML = `
-    <div style="margin-bottom:24px;">
-      <span class="status-pill ongoing" style="margin-bottom:8px;">SURVEY-DRIVEN DEVELOPMENT (26/09/2026)</span>
-      <h2 style="font-size:24px;font-weight:800;color:#0f172a;">${d.title} (N = ${d.total_surveyed} Students)</h2>
-      <p style="font-size:14px;color:#64748b;">${d.summary}</p>
-    </div>
-
-    <!-- Authentic Presentation Survey Chart Embeds -->
-    <div class="card" style="padding:24px;">
-      <div class="card-header">
-        <div class="card-title">Original Google Form Survey Charts (Slides 6, 7 & 8)</div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:20px;">
-        <div style="background:#f8fafc;padding:12px;border-radius:10px;text-align:center;">
-          <h5 style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:8px;">Q1-Q4: Student Difficulties</h5>
-          <img src="/assets/survey/image26.png" style="max-width:100%;border-radius:8px;box-shadow:var(--shadow-sm);" onerror="this.src='/assets/survey/image23.png'">
-        </div>
-
-        <div style="background:#f8fafc;padding:12px;border-radius:10px;text-align:center;">
-          <h5 style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:8px;">Q5-Q8: Feature Usefulness</h5>
-          <img src="/assets/survey/image27.png" style="max-width:100%;border-radius:8px;box-shadow:var(--shadow-sm);" onerror="this.src='/assets/survey/image24.png'">
-        </div>
-
-        <div style="background:#f8fafc;padding:12px;border-radius:10px;text-align:center;">
-          <h5 style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:8px;">Q9: Feature Priorities</h5>
-          <img src="/assets/survey/image28.png" style="max-width:100%;border-radius:8px;box-shadow:var(--shadow-sm);" onerror="this.src='/assets/survey/image25.png'">
-        </div>
-      </div>
-    </div>
-
-    <!-- Feature Preferences Table & Problem-Solution Alignment Matrix -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title">Survey Findings to Portal Feature Mapping (Exact Percentages)</div>
-      </div>
-
-      <div class="table-responsive">
-        <table class="custom-table">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Feature Demanded</th>
-              <th>Student Votes</th>
-              <th>Percentage</th>
-              <th>Implemented Portal Module</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${d.feature_priorities.map(p => `
-              <tr>
-                <td><strong>#${p.rank}</strong></td>
-                <td><strong>${p.feature}</strong></td>
-                <td>${p.count} / 56 Students</td>
-                <td><strong style="color:#2563eb;font-size:14px;">${p.percentage}%</strong></td>
-                <td><span class="room-badge">${p.module}</span></td>
-                <td><span class="status-pill good">✔ 100% Implemented</span></td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
       </div>
     </div>
   `;
@@ -2162,6 +1971,7 @@ async function renderStudentsDirectory(container, isDept = false) {
             <th>CGPA</th>
             <th>Attendance</th>
             <th>Mentor</th>
+            ${isDept ? '<th>Action</th>' : ''}
           </tr>
         </thead>
         <tbody>
@@ -2173,7 +1983,14 @@ async function renderStudentsDirectory(container, isDept = false) {
               <td>Section ${s.section}</td>
               <td><span class="status-pill good">${s.cgpa}</span></td>
               <td><strong style="color:${s.attendance_pct >= 75 ? '#059669' : '#dc2626'};">${s.attendance_pct}%</strong></td>
-              <td>${s.mentor_name || 'Prof. R. Sharma'}</td>
+              <td>${s.mentor_name || 'Prof. Kavya K. S. (Math)'}</td>
+              ${isDept ? `
+                <td>
+                  <button class="btn btn-secondary" style="font-size:11px;padding:4px 8px;color:#ef4444;" onclick="deleteStudentRecord(${s.id}, '${s.name.replace(/'/g, "\\'")}')">
+                    Delete
+                  </button>
+                </td>
+              ` : ''}
             </tr>
           `).join('')}
         </tbody>
@@ -2189,7 +2006,7 @@ async function renderFacultyDirectory(container) {
   container.innerHTML = `
     <div style="margin-bottom:20px;">
       <h2 style="font-size:22px;font-weight:800;color:#0f172a;">Faculty Management & Roster</h2>
-      <p style="font-size:13px;color:#64748b;">CSE (ICB) department faculty members, qualifications, and cabin numbers.</p>
+      <p style="font-size:13px;color:#64748b;">CSE (ICB) department faculty members and qualifications.</p>
     </div>
 
     <div class="card table-responsive">
@@ -2201,7 +2018,6 @@ async function renderFacultyDirectory(container) {
             <th>Designation</th>
             <th>Department</th>
             <th>Qualification</th>
-            <th>Cabin No</th>
             <th>Assigned Students</th>
           </tr>
         </thead>
@@ -2213,7 +2029,6 @@ async function renderFacultyDirectory(container) {
               <td>${f.designation}</td>
               <td>${f.department}</td>
               <td>${f.qualification}</td>
-              <td><span class="room-badge">${f.cabin_no}</span></td>
               <td><strong>${f.total_students} Students</strong></td>
             </tr>
           `).join('')}
@@ -2306,7 +2121,7 @@ async function handleResourceUploadSubmit(e) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         title, category, semester, subject_name, external_url, description,
-        uploaded_by: AppState.user?.name || 'Prof. R. Sharma'
+        uploaded_by: AppState.user?.name || 'Prof. Kavya K. S. (Math)'
       })
     });
     const d = await res.json();
@@ -2585,7 +2400,7 @@ function openDbModal() {
         ${isMysql ? 'MySQL 8.0 Server (Connected)' : 'Integrated Relational Database (Active)'}
       </div>
       <p style="font-size:12px;color:#64748b;margin-top:4px;">
-        All tables (Users, Students, Teachers, Subjects, Attendance, Resources, Assignments, Notices, Survey) are loaded and operational.
+        All tables (Users, Students, Teachers, Subjects, Attendance, Resources, Assignments, Notices) are loaded and operational.
       </p>
     </div>
 
@@ -2625,14 +2440,20 @@ async function openNotifModal() {
   const body = document.getElementById('genericModalBody');
   const title = document.getElementById('genericModalTitle');
 
-  const res = await fetch('/api/notifications');
+  const res = await apiFetch('/api/notifications');
   const notifs = await res.json();
 
-  title.innerText = 'Notifications & Alerts';
+  title.innerText = 'Notifications & Official Circulars';
   body.innerHTML = `
-    <div style="display:flex;flex-direction:column;gap:12px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+      <span style="font-size:12px;color:#64748b;">${notifs.length} Total Alerts</span>
+      <button class="btn btn-secondary" style="font-size:11px;padding:4px 10px;" onclick="markAllNotifsRead()">
+        Mark All as Read
+      </button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;max-height:360px;overflow-y:auto;">
       ${notifs.map(n => `
-        <div style="padding:12px 14px;background:#f8fafc;border-radius:8px;border-left:3px solid #2563eb;">
+        <div style="padding:12px 14px;background:#f8fafc;border-radius:8px;border-left:3px solid ${n.type === 'assignment' ? '#8b5cf6' : n.type === 'exam' ? '#f59e0b' : '#2563eb'};">
           <div style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:3px;">${n.title}</div>
           <div style="font-size:12px;color:#475569;">${n.message}</div>
           <div style="font-size:10.5px;color:#94a3b8;margin-top:4px;">${n.time || 'Recent'}</div>
@@ -2644,6 +2465,685 @@ async function openNotifModal() {
     </div>
   `;
   modal.classList.add('open');
+}
+
+async function markAllNotifsRead() {
+  try {
+    const res = await apiFetch('/api/notifications/read-all', { method: 'POST' });
+    const d = await res.json();
+    showToast(d.message || 'All notifications marked as read!');
+    const badge = document.querySelector('.notif-badge');
+    if (badge) badge.style.display = 'none';
+    closeModal();
+  } catch (err) {
+    closeModal();
+  }
+}
+
+async function registerForEvent(id) {
+  try {
+    const res = await apiFetch(`/api/events/${id}/register`, { method: 'POST' });
+    const d = await res.json();
+    showToast(d.message || 'Successfully registered for event!');
+    if (AppState.currentTab === 'events') {
+      renderEventsView(document.getElementById('mainContentArea'));
+    }
+  } catch (err) {
+    showToast('Failed to register: ' + err.message);
+  }
+}
+
+async function handleProfileSave(event) {
+  event.preventDefault();
+  const phone = document.getElementById('profilePhoneInput')?.value;
+  const email = document.getElementById('profileEmailInput')?.value;
+
+  try {
+    const res = await apiFetch('/api/profile', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, email })
+    });
+    const d = await res.json();
+    if (d.user) {
+      AppState.user = { ...AppState.user, ...d.user };
+      renderTopHeaderMeta();
+    }
+    showToast(d.message || 'Profile saved and synchronized!');
+  } catch (err) {
+    showToast('Failed to save profile: ' + err.message);
+  }
+}
+
+async function deleteStudentRecord(id, name) {
+  if (!confirm(`Are you sure you want to delete the student record for ${name}?`)) return;
+  try {
+    const res = await apiFetch(`/api/students/${id}`, { method: 'DELETE' });
+    const d = await res.json();
+    showToast(d.message || 'Student record deleted!');
+    if (AppState.currentTab === 'students_list') {
+      renderStudentsDirectory(document.getElementById('mainContentArea'), true);
+    }
+  } catch (err) {
+    showToast('Failed to delete student: ' + err.message);
+  }
+}
+
+// ---------------- 18. MISSING TEACHER & DEPARTMENT MODULES ----------------
+
+// Teacher: Manage Assignments & Submissions
+async function renderTeacherAssignmentsManage(container) {
+  const res = await apiFetch('/api/assignments');
+  const assignments = await res.json();
+
+  const total = assignments.length;
+  const evaluated = assignments.filter(a => a.status === 'evaluated').length;
+  const pending = assignments.filter(a => a.status === 'pending' || a.status === 'submitted').length;
+
+  container.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+      <div>
+        <h2 style="font-size:22px;font-weight:800;color:#0f172a;">Manage Coursework & Assignments</h2>
+        <p style="font-size:13px;color:#64748b;">Publish coursework tasks, monitor submissions, and record evaluation grades.</p>
+      </div>
+      <div>
+        <button class="btn btn-primary" onclick="openCreateAssignmentModal()">
+          ${Icons.plus} Create New Assignment
+        </button>
+      </div>
+    </div>
+
+    <!-- Summary Metrics -->
+    <div class="metrics-row" style="grid-template-columns: repeat(3, 1fr);margin-bottom:24px;">
+      <div class="metric-card">
+        <div class="metric-left">
+          <div class="metric-icon-box blue">${Icons.assignments}</div>
+          <div class="metric-info">
+            <div class="label">Total Published</div>
+            <div class="value">${total} Assignments</div>
+            <div class="sublabel">Active Modules</div>
+          </div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-left">
+          <div class="metric-icon-box orange">${Icons.examination}</div>
+          <div class="metric-info">
+            <div class="label">Pending Evaluation</div>
+            <div class="value">${pending} Submissions</div>
+            <div class="sublabel" style="color:#f59e0b;">Ready for grading</div>
+          </div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-left">
+          <div class="metric-icon-box green">${Icons.check}</div>
+          <div class="metric-info">
+            <div class="label">Evaluated</div>
+            <div class="value">${evaluated} Completed</div>
+            <div class="sublabel" style="color:#10b981;">Marks recorded</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card table-responsive">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Assignment Title</th>
+            <th>Subject</th>
+            <th>Semester</th>
+            <th>Deadline</th>
+            <th>Max Marks</th>
+            <th>Status</th>
+            <th>Marks / Feedback</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${assignments.map(a => `
+            <tr>
+              <td><strong>${a.title}</strong></td>
+              <td><span class="room-badge">${a.subject_name}</span></td>
+              <td>Sem ${a.semester}</td>
+              <td><strong>${a.deadline}</strong></td>
+              <td>${a.max_marks} Marks</td>
+              <td>
+                <span class="status-pill ${a.status === 'evaluated' ? 'good' : a.status === 'submitted' ? 'ongoing' : 'warning'}">
+                  ${a.status.toUpperCase()}
+                </span>
+              </td>
+              <td>
+                ${a.marks_obtained !== null && a.marks_obtained !== undefined ?
+                  `<strong style="color:#059669;">${a.marks_obtained}/${a.max_marks}</strong> <span style="font-size:11px;color:#64748b;">(${a.feedback || 'Evaluated'})</span>` :
+                  '<span style="color:#94a3b8;font-size:11px;">Not Graded</span>'
+                }
+              </td>
+              <td>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn btn-secondary" style="font-size:11px;padding:4px 8px;" onclick="openEvaluateAssignmentModal(${a.id}, '${a.title.replace(/'/g, "\\'")}', ${a.max_marks})">
+                    Evaluate
+                  </button>
+                  <button class="btn btn-secondary" style="font-size:11px;padding:4px 8px;color:#ef4444;" onclick="deleteAssignment(${a.id})">
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function openEvaluateAssignmentModal(id, titleText, maxMarks) {
+  const modal = document.getElementById('genericModal');
+  const body = document.getElementById('genericModalBody');
+  const title = document.getElementById('genericModalTitle');
+
+  title.innerText = 'Evaluate Submission: ' + titleText;
+  body.innerHTML = `
+    <form onsubmit="handleEvaluateAssignmentSubmit(event, ${id})">
+      <div class="form-group">
+        <label>Student Roster</label>
+        <select id="evalStudentSelect" class="form-control" required>
+          <option value="1">Hussain Basha (1KS25IC023) - Submitted C Source File</option>
+          <option value="2">D V Manas Srujan (1KS25IC015) - Submitted PDF Report</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Marks Scored (Max: ${maxMarks})</label>
+        <input type="number" id="evalMarks" class="form-control" min="0" max="${maxMarks}" step="0.5" value="${Math.min(18, maxMarks)}" required>
+      </div>
+
+      <div class="form-group">
+        <label>Faculty Feedback & Remarks</label>
+        <textarea id="evalFeedback" class="form-control" rows="3" placeholder="Enter evaluation remarks for the student...">Verified logic and code structure. Accurate execution.</textarea>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:20px;">
+        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Grade</button>
+      </div>
+    </form>
+  `;
+  modal.classList.add('open');
+}
+
+async function handleEvaluateAssignmentSubmit(e, id) {
+  e.preventDefault();
+  const marks_obtained = document.getElementById('evalMarks').value;
+  const feedback = document.getElementById('evalFeedback').value;
+
+  try {
+    const res = await apiFetch(`/api/assignments/${id}/evaluate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ marks_obtained, feedback })
+    });
+    const d = await res.json();
+    closeModal();
+    showToast(d.message || 'Assignment evaluated successfully!');
+    if (AppState.currentTab === 'assignments_manage') {
+      renderTeacherAssignmentsManage(document.getElementById('mainContentArea'));
+    }
+  } catch (err) {
+    closeModal();
+    showToast('Failed to evaluate: ' + err.message);
+  }
+}
+
+async function deleteAssignment(id) {
+  if (!confirm('Are you sure you want to delete this assignment?')) return;
+  try {
+    const res = await apiFetch(`/api/assignments/${id}`, { method: 'DELETE' });
+    const d = await res.json();
+    showToast(d.message || 'Assignment deleted successfully!');
+    if (AppState.currentTab === 'assignments_manage') {
+      renderTeacherAssignmentsManage(document.getElementById('mainContentArea'));
+    }
+  } catch (e) {
+    showToast('Failed to delete assignment: ' + e.message);
+  }
+}
+
+// Teacher: Marks Management & IA Entry
+async function renderTeacherMarksManage(container) {
+  const [examsRes, rosterRes] = await Promise.all([
+    apiFetch('/api/examinations'),
+    apiFetch('/api/examinations/marks/roster')
+  ]);
+  const exams = await examsRes.json();
+  const roster = await rosterRes.json();
+
+  container.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+      <div>
+        <h2 style="font-size:22px;font-weight:800;color:#0f172a;">Internal Assessment & Marks Management</h2>
+        <p style="font-size:13px;color:#64748b;">Record, enter, and review student test scores for Internal Assessments (IA-1, IA-2).</p>
+      </div>
+      <div>
+        <select class="form-control" style="width:230px;" onchange="showToast('Filtered for ' + this.value)">
+          <option value="IA1">Internal Assessment 1 (IA-1)</option>
+          <option value="IA2">Internal Assessment 2 (IA-2)</option>
+          <option value="Lab">Lab Internal Exam</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card table-responsive">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>USN</th>
+            <th>Student Name</th>
+            <th>Section</th>
+            <th>Mathematics (/25)</th>
+            <th>Physics (/25)</th>
+            <th>C Programming (/25)</th>
+            <th>Graphics (/25)</th>
+            <th>Total (/100)</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${roster.map(r => `
+            <tr>
+              <td><code>${r.usn}</code></td>
+              <td><strong>${r.student_name}</strong></td>
+              <td>${r.section}</td>
+              <td><strong style="color:#059669;">${r.ia1_maths}</strong></td>
+              <td><strong style="color:#059669;">${r.ia1_physics}</strong></td>
+              <td><strong style="color:#059669;">${r.ia1_cprog}</strong></td>
+              <td><strong style="color:#059669;">${r.ia1_graphics}</strong></td>
+              <td><span class="status-pill good">${r.ia1_total}%</span></td>
+              <td><span class="status-pill ${r.status === 'Approved' ? 'good' : 'warning'}">${r.status}</span></td>
+              <td>
+                <button class="btn btn-secondary" style="font-size:11px;padding:4px 8px;" onclick="openEnterMarksModal(${r.student_id}, '${r.student_name.replace(/'/g, "\\'")}')">
+                  Edit Marks
+                </button>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function openEnterMarksModal(studentId, studentName) {
+  const modal = document.getElementById('genericModal');
+  const body = document.getElementById('genericModalBody');
+  const title = document.getElementById('genericModalTitle');
+
+  title.innerText = `Record IA Marks: ${studentName}`;
+  body.innerHTML = `
+    <form onsubmit="handleSaveMarksSubmit(event, ${studentId})">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div class="form-group">
+          <label>Mathematics (/25)</label>
+          <input type="number" id="markMaths" class="form-control" min="0" max="25" value="24" required>
+        </div>
+        <div class="form-group">
+          <label>Physics (/25)</label>
+          <input type="number" id="markPhysics" class="form-control" min="0" max="25" value="22" required>
+        </div>
+        <div class="form-group">
+          <label>Programming in C (/25)</label>
+          <input type="number" id="markC" class="form-control" min="0" max="25" value="25" required>
+        </div>
+        <div class="form-group">
+          <label>Engineering Graphics (/25)</label>
+          <input type="number" id="markGraphics" class="form-control" min="0" max="25" value="21" required>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:20px;">
+        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save to Database</button>
+      </div>
+    </form>
+  `;
+  modal.classList.add('open');
+}
+
+async function handleSaveMarksSubmit(e, studentId) {
+  e.preventDefault();
+  const maths = document.getElementById('markMaths').value;
+  try {
+    const res = await apiFetch('/api/examinations/marks/record', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        student_id: studentId,
+        subject_name: 'Mathematics',
+        exam_type: 'Internal Assessment 1',
+        marks_obtained: maths,
+        max_marks: 25
+      })
+    });
+    const d = await res.json();
+    closeModal();
+    showToast(d.message || 'Marks recorded successfully!');
+    if (AppState.currentTab === 'marks_manage') {
+      renderTeacherMarksManage(document.getElementById('mainContentArea'));
+    }
+  } catch (err) {
+    closeModal();
+    showToast('Failed to save marks: ' + err.message);
+  }
+}
+
+// Teacher & Dept: Post & Manage Department Notices
+async function renderTeacherNoticesManage(container) {
+  const res = await apiFetch('/api/notices');
+  const notices = await res.json();
+
+  container.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+      <div>
+        <h2 style="font-size:22px;font-weight:800;color:#0f172a;">Department Circulars & Notice Management</h2>
+        <p style="font-size:13px;color:#64748b;">Publish official announcements, event circulars, and manage broadcast alerts.</p>
+      </div>
+      <div>
+        <button class="btn btn-primary" onclick="openPostNoticeModal()">
+          ${Icons.plus} Post New Circular
+        </button>
+      </div>
+    </div>
+
+    <div class="card table-responsive">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Circular Title</th>
+            <th>Category</th>
+            <th>Priority</th>
+            <th>Target Audience</th>
+            <th>Date Posted</th>
+            <th>Author</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${notices.map(n => `
+            <tr>
+              <td><strong>${n.title}</strong></td>
+              <td><span class="room-badge">${n.category}</span></td>
+              <td><span class="status-pill ${n.priority === 'High' ? 'urgent' : 'ongoing'}">${n.priority}</span></td>
+              <td><span style="font-size:11.5px;color:#2563eb;text-transform:uppercase;font-weight:600;">${n.target_role}</span></td>
+              <td>${n.date_posted}</td>
+              <td>${n.author || 'Dr. Kushal Kumar B. N.'}</td>
+              <td>
+                <button class="btn btn-secondary" style="font-size:11px;padding:4px 8px;color:#ef4444;" onclick="deleteNotice(${n.id})">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+async function deleteNotice(id) {
+  if (!confirm('Are you sure you want to delete this circular?')) return;
+  try {
+    const res = await apiFetch(`/api/notices/${id}`, { method: 'DELETE' });
+    const d = await res.json();
+    showToast(d.message || 'Notice deleted successfully!');
+    if (AppState.currentTab === 'notices_manage') {
+      renderTeacherNoticesManage(document.getElementById('mainContentArea'));
+    }
+  } catch (err) {
+    showToast('Failed to delete notice: ' + err.message);
+  }
+}
+
+// Teacher: Reports & Class Analytics
+async function renderReportsTeacher(container) {
+  const res = await apiFetch('/api/students');
+  const students = await res.json();
+
+  container.innerHTML = `
+    <div style="margin-bottom:20px;">
+      <h2 style="font-size:22px;font-weight:800;color:#0f172a;">Reports & Academic Standing</h2>
+      <p style="font-size:13px;color:#64748b;">Class performance analysis, attendance-to-marks correlation, and merit standing.</p>
+    </div>
+
+    <!-- Summary Metrics -->
+    <div class="metrics-row" style="grid-template-columns: repeat(4, 1fr);margin-bottom:24px;">
+      <div class="metric-card">
+        <div class="metric-left">
+          <div class="metric-icon-box blue">${Icons.reports}</div>
+          <div class="metric-info">
+            <div class="label">Class Average</div>
+            <div class="value">84.2%</div>
+            <div class="sublabel" style="color:#059669;">+3.4% this semester</div>
+          </div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-left">
+          <div class="metric-icon-box green">${Icons.check}</div>
+          <div class="metric-info">
+            <div class="label">Pass Rate</div>
+            <div class="value">97.8%</div>
+            <div class="sublabel">44 of 45 cleared</div>
+          </div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-left">
+          <div class="metric-icon-box purple">${Icons.attendance}</div>
+          <div class="metric-info">
+            <div class="label">Attendance Ratio</div>
+            <div class="value">92.4%</div>
+            <div class="sublabel" style="color:#2563eb;">High compliance</div>
+          </div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-left">
+          <div class="metric-icon-box orange">${Icons.examination}</div>
+          <div class="metric-info">
+            <div class="label">Top CGPA</div>
+            <div class="value">9.85</div>
+            <div class="sublabel">1st Year CSE (ICB)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Merit List Table -->
+    <div class="card table-responsive">
+      <div class="card-header">
+        <div class="card-title">Class Academic Merit List (CSE-ICB)</div>
+      </div>
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>USN</th>
+            <th>Student Name</th>
+            <th>Section</th>
+            <th>Attendance %</th>
+            <th>CGPA</th>
+            <th>Academic Standing</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${students.slice(0, 10).map((s, i) => `
+            <tr>
+              <td><strong>#${i + 1}</strong></td>
+              <td><code>${s.usn}</code></td>
+              <td><strong>${s.name}</strong></td>
+              <td>${s.section}</td>
+              <td><strong style="color:#059669;">${s.attendance_pct}%</strong></td>
+              <td><span class="status-pill good">${s.cgpa}</span></td>
+              <td><span class="room-badge">${s.cgpa >= 8.5 ? 'Distinction' : 'First Class'}</span></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+// Department: Attendance Analytics & Defaulters
+async function renderDeptAttendanceAnalytics(container) {
+  const res = await apiFetch('/api/attendance/analytics');
+  const d = await res.json();
+
+  container.innerHTML = `
+    <div style="margin-bottom:20px;">
+      <h2 style="font-size:22px;font-weight:800;color:#0f172a;">Department Attendance Analytics</h2>
+      <p style="font-size:13px;color:#64748b;">Department-wide attendance tracking, VTU 75% compliance, and shortage alerts.</p>
+    </div>
+
+    <div class="metrics-row" style="grid-template-columns: repeat(3, 1fr);margin-bottom:24px;">
+      <div class="metric-card">
+        <div class="metric-left">
+          <div class="metric-icon-box green">${Icons.attendance}</div>
+          <div class="metric-info">
+            <div class="label">Overall Department Rate</div>
+            <div class="value">${d.overall_department_rate}%</div>
+            <div class="sublabel" style="color:#059669;">+2.4% over VTU benchmark</div>
+          </div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-left">
+          <div class="metric-icon-box blue">${Icons.students}</div>
+          <div class="metric-info">
+            <div class="label">Eligible Students (&ge;75%)</div>
+            <div class="value">${d.eligible_count} Students</div>
+            <div class="sublabel" style="color:#10b981;">Cleared for Hall Tickets</div>
+          </div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-left">
+          <div class="metric-icon-box red">${Icons.notices}</div>
+          <div class="metric-info">
+            <div class="label">Shortage Alert (&lt;75%)</div>
+            <div class="value">${d.defaulters_count} Students</div>
+            <div class="sublabel" style="color:#ef4444;">Faculty counseling assigned</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subject Averages Table -->
+    <div class="card table-responsive" style="margin-bottom:24px;">
+      <div class="card-header">
+        <div class="card-title">Subject-Wise Attendance Compliance</div>
+      </div>
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Subject Code</th>
+            <th>Subject Title</th>
+            <th>Classes Conducted</th>
+            <th>Department Average</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${d.subject_metrics.map(m => `
+            <tr>
+              <td><code>${m.code}</code></td>
+              <td><strong>${m.name}</strong></td>
+              <td>${m.conducted} Classes</td>
+              <td><strong style="color:#059669;">${m.average_attendance}%</strong></td>
+              <td><span class="status-pill good">Compliant</span></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+// Department: Examination Approvals
+async function renderDeptExamApprovals(container) {
+  const [examsRes, rosterRes] = await Promise.all([
+    apiFetch('/api/examinations'),
+    apiFetch('/api/examinations/marks/roster')
+  ]);
+  const exams = await examsRes.json();
+  const roster = await rosterRes.json();
+
+  container.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+      <div>
+        <h2 style="font-size:22px;font-weight:800;color:#0f172a;">Examination & Marks Moderation Desk</h2>
+        <p style="font-size:13px;color:#64748b;">Department administration portal for moderating internal assessments and marks approvals.</p>
+      </div>
+      <div>
+        <button class="btn btn-primary" onclick="approveExamMarks()">
+          ${Icons.check} Approve All Marks & Moderations
+        </button>
+      </div>
+    </div>
+
+    <div class="card table-responsive">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>USN</th>
+            <th>Student Name</th>
+            <th>Semester</th>
+            <th>Maths (/25)</th>
+            <th>Physics (/25)</th>
+            <th>C Prog (/25)</th>
+            <th>Graphics (/25)</th>
+            <th>Total Score</th>
+            <th>Approval Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${roster.map(r => `
+            <tr>
+              <td><code>${r.usn}</code></td>
+              <td><strong>${r.student_name}</strong></td>
+              <td>Sem ${r.semester}</td>
+              <td><strong>${r.ia1_maths}</strong></td>
+              <td><strong>${r.ia1_physics}</strong></td>
+              <td><strong>${r.ia1_cprog}</strong></td>
+              <td><strong>${r.ia1_graphics}</strong></td>
+              <td><strong style="color:#2563eb;">${r.ia1_total} / 100</strong></td>
+              <td><span class="status-pill ${r.status === 'Approved' ? 'good' : 'warning'}">${r.status}</span></td>
+              <td>
+                <button class="btn btn-secondary" style="font-size:11px;padding:4px 8px;" onclick="approveExamMarks(${r.student_id})">
+                  Approve
+                </button>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+async function approveExamMarks(studentId = null) {
+  try {
+    const res = await apiFetch('/api/examinations/1/approve', { method: 'POST' });
+    const d = await res.json();
+    showToast(d.message || 'Marks approved by Dr. Kushal Kumar B. N. (HOD)!');
+    if (AppState.currentTab === 'exam_approvals') {
+      renderDeptExamApprovals(document.getElementById('mainContentArea'));
+    }
+  } catch (err) {
+    showToast('Failed to approve: ' + err.message);
+  }
 }
 
 function viewNoticeDetail(id) {

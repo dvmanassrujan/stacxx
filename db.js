@@ -213,6 +213,64 @@ function getDbStore() {
   return memoryDb;
 }
 
+// Structured CRUD Helpers maintaining dual-engine sync (MySQL & persistent store)
+async function insertRecord(table, record, sql = null, sqlParams = []) {
+  if (memoryDb && memoryDb[table]) {
+    memoryDb[table].unshift(record);
+    saveMemoryDb();
+  }
+  if (currentEngine === 'mysql' && mysqlPool && sql) {
+    try {
+      await mysqlPool.execute(sql, sqlParams);
+    } catch (e) {
+      console.error(`[DB Error on insert into ${table}]:`, e.message);
+    }
+  }
+  return record;
+}
+
+async function updateRecord(table, filterFn, updateFn, sql = null, sqlParams = []) {
+  let updatedCount = 0;
+  if (memoryDb && memoryDb[table]) {
+    for (const item of memoryDb[table]) {
+      if (filterFn(item)) {
+        updateFn(item);
+        updatedCount++;
+      }
+    }
+    if (updatedCount > 0) saveMemoryDb();
+  }
+  if (currentEngine === 'mysql' && mysqlPool && sql) {
+    try {
+      await mysqlPool.execute(sql, sqlParams);
+    } catch (e) {
+      console.error(`[DB Error on update ${table}]:`, e.message);
+    }
+  }
+  return updatedCount;
+}
+
+async function deleteRecord(table, filterFn, sql = null, sqlParams = []) {
+  let deletedCount = 0;
+  if (memoryDb && memoryDb[table]) {
+    const originalLen = memoryDb[table].length;
+    memoryDb[table] = memoryDb[table].filter(item => {
+      const match = filterFn(item);
+      if (match) deletedCount++;
+      return !match;
+    });
+    if (deletedCount > 0) saveMemoryDb();
+  }
+  if (currentEngine === 'mysql' && mysqlPool && sql) {
+    try {
+      await mysqlPool.execute(sql, sqlParams);
+    } catch (e) {
+      console.error(`[DB Error on delete from ${table}]:`, e.message);
+    }
+  }
+  return deletedCount;
+}
+
 function getStatus() {
   return {
     engine: currentEngine,
@@ -224,13 +282,12 @@ function getStatus() {
     },
     error: dbError,
     activeRecords: {
-      students: memoryDb ? memoryDb.students.length : 0,
-      teachers: memoryDb ? memoryDb.teachers.length : 0,
-      subjects: memoryDb ? memoryDb.subjects.length : 0,
-      study_materials: memoryDb ? memoryDb.study_materials.length : 0,
-      assignments: memoryDb ? memoryDb.assignments.length : 0,
-      notices: memoryDb ? memoryDb.notices.length : 0,
-      survey_responses: memoryDb ? memoryDb.survey_responses.length : 0
+      students: memoryDb ? (memoryDb.students ? memoryDb.students.length : 0) : 0,
+      teachers: memoryDb ? (memoryDb.teachers ? memoryDb.teachers.length : 0) : 0,
+      subjects: memoryDb ? (memoryDb.subjects ? memoryDb.subjects.length : 0) : 0,
+      study_materials: memoryDb ? (memoryDb.study_materials ? memoryDb.study_materials.length : 0) : 0,
+      assignments: memoryDb ? (memoryDb.assignments ? memoryDb.assignments.length : 0) : 0,
+      notices: memoryDb ? (memoryDb.notices ? memoryDb.notices.length : 0) : 0
     }
   };
 }
@@ -240,5 +297,8 @@ module.exports = {
   query,
   getDbStore,
   saveMemoryDb,
+  insertRecord,
+  updateRecord,
+  deleteRecord,
   getStatus
 };

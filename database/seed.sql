@@ -10,21 +10,21 @@ INSERT INTO `users` (`id`, `username`, `password_hash`, `role`, `name`, `email`,
 (2, 'manas', 'password123', 'student', 'D V Manas Srujan', 'manas.srujan@ksit.edu.in', '+91 98450 22334', '/assets/avatars/student2.png'),
 (3, 'pavani', 'password123', 'student', 'M Pavani Gowda', 'pavani.gowda@ksit.edu.in', '+91 98450 33445', '/assets/avatars/student3.png'),
 (4, 'purvi', 'password123', 'student', 'Purvi B V', 'purvi.bv@ksit.edu.in', '+91 98450 44556', '/assets/avatars/student4.png'),
-(5, 'prof_sharma', 'password123', 'teacher', 'Prof. R. Sharma', 'r.sharma@ksit.edu.in', '+91 98450 55667', '/assets/avatars/teacher1.png'),
+(5, 'prof_kavya', 'password123', 'teacher', 'Prof. Kavya K. S. (Math)', 'kavya.ks@ksit.edu.in', '+91 98450 55667', '/assets/avatars/teacher1.png'),
 (6, 'dr_ramesh', 'password123', 'teacher', 'Dr. S. Ramesh', 's.ramesh@ksit.edu.in', '+91 98450 66778', '/assets/avatars/teacher2.png'),
 (7, 'prof_khan', 'password123', 'teacher', 'Prof. A. Khan', 'a.khan@ksit.edu.in', '+91 98450 77889', '/assets/avatars/teacher3.png'),
-(8, 'dr_kumar', 'password123', 'department', 'Dr. R. Kumar', 'hod.cse@ksit.edu.in', '+91 98450 88990', '/assets/avatars/hod.png');
+(8, 'dr_kushal', 'password123', 'department', 'Dr. Kushal Kumar B. N.', 'hod.cse@ksit.edu.in', '+91 98450 88990', '/assets/avatars/hod.png');
 
 -- 2. Students
 INSERT INTO `students` (`id`, `user_id`, `usn`, `year`, `semester`, `section`, `department`, `cgpa`, `present_days`, `total_days`, `blood_group`, `mentor_name`) VALUES
-(1, 1, '1KS25IC023', '1st Year', 1, 'A', 'CSE (ICB)', 8.12, 46, 50, 'O+', 'Prof. R. Sharma'),
-(2, 2, '1KS25IC015', '1st Year', 1, 'A', 'CSE (ICB)', 8.45, 48, 50, 'B+', 'Prof. R. Sharma'),
-(3, 3, '1KS25IC033', '1st Year', 1, 'A', 'CSE (ICB)', 8.30, 47, 50, 'A+', 'Prof. R. Sharma'),
-(4, 4, '1KS25IC045', '1st Year', 1, 'A', 'CSE (ICB)', 8.60, 49, 50, 'AB+', 'Prof. R. Sharma');
+(1, 1, '1KS25IC023', '1st Year', 1, 'A', 'CSE (ICB)', 8.12, 46, 50, 'O+', 'Prof. Kavya K. S. (Math)'),
+(2, 2, '1KS25IC015', '1st Year', 1, 'A', 'CSE (ICB)', 8.45, 48, 50, 'B+', 'Prof. Kavya K. S. (Math)'),
+(3, 3, '1KS25IC033', '1st Year', 1, 'A', 'CSE (ICB)', 8.30, 47, 50, 'A+', 'Prof. Kavya K. S. (Math)'),
+(4, 4, '1KS25IC045', '1st Year', 1, 'A', 'CSE (ICB)', 8.60, 49, 50, 'AB+', 'Prof. Kavya K. S. (Math)');
 
 -- 3. Teachers
 INSERT INTO `teachers` (`id`, `user_id`, `employee_id`, `designation`, `department`, `qualification`, `cabin_no`) VALUES
-(1, 5, 'KSIT-FAC-014', 'Assistant Professor', 'CSE (ICB)', 'M.Tech (CSE), Ph.D.', 'B-304'),
+(1, 5, 'KSIT-FAC-014', 'Assistant Professor', 'Mathematics • CSE (ICB)', 'M.Sc. (Mathematics), Ph.D.', 'B-304'),
 (2, 6, 'KSIT-FAC-008', 'Associate Professor', 'Mathematics', 'M.Sc., Ph.D.', 'A-201'),
 (3, 7, 'KSIT-FAC-019', 'Assistant Professor', 'Physics', 'M.Sc., M.Phil.', 'A-205');
 
@@ -60,12 +60,12 @@ INSERT INTO `attendance` (`student_id`, `subject_id`, `date`, `period_no`, `stat
 -- 7. Academic Resource Hub (Study materials, Notes, Syllabus, PYQ, Research, Courses, Certs)
 INSERT INTO `study_materials` (`id`, `title`, `description`, `category`, `subject_id`, `semester`, `file_url`, `external_url`, `file_size`, `file_type`, `uploaded_by`, `downloads_count`) VALUES
 (1, 'Engineering Mathematics - Module 1 Calculus & Differential Equations', 'Comprehensive lecture notes and solved example problems for First Year VTU / KSIT syllabus.', 'notes', 1, 1, '/resources/maths_mod1_notes.pdf', NULL, '4.2 MB', 'PDF', 'Dr. S. Ramesh', 128),
-(2, 'Programming in C - Complete Lecture Slides & Code Templates', 'Detailed presentation on pointers, memory allocation, arrays, structs, and recursion.', 'notes', 3, 1, '/resources/c_programming_slides.pdf', NULL, '3.8 MB', 'PDF', 'Prof. R. Sharma', 194),
+(2, 'Programming in C - Complete Lecture Slides & Code Templates', 'Detailed presentation on pointers, memory allocation, arrays, structs, and recursion.', 'notes', 3, 1, '/resources/c_programming_slides.pdf', NULL, '3.8 MB', 'PDF', 'Prof. Kavya K. S. (Math)', 194),
 (3, 'Applied Engineering Physics - Wave Optics & Lasers Unit Notes', 'Complete theory, derivation charts, and viva-voce questions for unit 2.', 'notes', 2, 1, '/resources/physics_unit2_notes.pdf', NULL, '2.9 MB', 'PDF', 'Prof. A. Khan', 88),
 (4, 'CSE (ICB) 2025-26 Scheme & Detailed Syllabus Curriculum', 'Complete autonomous & VTU aligned curriculum structure for all 8 semesters of CSE (ICB).', 'syllabus', 3, 1, '/resources/cse_icb_syllabus_2025.pdf', NULL, '1.5 MB', 'PDF', 'HOD - CSE (ICB)', 312),
-(5, 'VTU Semester End Exam Previous-Year Question Papers (2021-2024)', 'Bundled question papers with solution keys for First Year Mathematics, Physics & C Programming.', 'pyq', 1, 1, '/resources/pyq_bundle_sem1.pdf', NULL, '8.6 MB', 'PDF', 'Prof. R. Sharma', 246),
-(6, 'Research Paper: Modern Optimization in Federated Deep Learning Systems', 'IEEE curated research survey paper recommended for second & third year student seminars.', 'research_paper', 3, 1, '/resources/federated_dl_survey.pdf', 'https://ieeexplore.ieee.org', '1.2 MB', 'PDF', 'Prof. R. Sharma', 54),
-(7, 'NPTEL: Problem Solving through Programming in C (IIT Kharagpur)', 'Free 12-week NPTEL course with video modules and assignments for credit certification.', 'online_course', 3, 1, NULL, 'https://nptel.ac.in/courses/106105171', 'Online', 'LINK', 'Prof. R. Sharma', 142),
+(5, 'VTU Semester End Exam Previous-Year Question Papers (2021-2024)', 'Bundled question papers with solution keys for First Year Mathematics, Physics & C Programming.', 'pyq', 1, 1, '/resources/pyq_bundle_sem1.pdf', NULL, '8.6 MB', 'PDF', 'Prof. Kavya K. S. (Math)', 246),
+(6, 'Research Paper: Modern Optimization in Federated Deep Learning Systems', 'IEEE curated research survey paper recommended for second & third year student seminars.', 'research_paper', 3, 1, '/resources/federated_dl_survey.pdf', 'https://ieeexplore.ieee.org', '1.2 MB', 'PDF', 'Prof. Kavya K. S. (Math)', 54),
+(7, 'NPTEL: Problem Solving through Programming in C (IIT Kharagpur)', 'Free 12-week NPTEL course with video modules and assignments for credit certification.', 'online_course', 3, 1, NULL, 'https://nptel.ac.in/courses/106105171', 'Online', 'LINK', 'Prof. Kavya K. S. (Math)', 142),
 (8, 'AWS Certified Cloud Practitioner - Department Student Study Track', 'Self-paced training and discount voucher roadmap for CSE (ICB) students.', 'certification', 3, 1, NULL, 'https://aws.amazon.com/certification/certified-cloud-practitioner/', 'Online', 'LINK', 'HOD - CSE (ICB)', 115);
 
 -- 8. Assignments
@@ -76,7 +76,7 @@ INSERT INTO `assignments` (`id`, `title`, `subject_id`, `semester`, `faculty_id`
 
 -- 9. Assignment Submissions
 INSERT INTO `assignment_submissions` (`assignment_id`, `student_id`, `submission_date`, `submission_file`, `submission_text`, `status`, `marks_obtained`, `feedback`) VALUES
-(1, 1, '2025-09-27 15:30:00', '/submissions/hussain_assignment1.c', 'Implemented dynamic memory allocation with malloc and free error handling.', 'submitted', NULL, 'Under review by Prof. Sharma'),
+(1, 1, '2025-09-27 15:30:00', '/submissions/hussain_assignment1.c', 'Implemented dynamic memory allocation with malloc and free error handling.', 'submitted', NULL, 'Under review by Prof. Kavya K. S.'),
 (2, 1, NULL, NULL, NULL, 'pending', NULL, 'Pending submission before deadline'),
 (3, 1, NULL, NULL, NULL, 'pending', NULL, 'Pending submission before deadline');
 
@@ -100,7 +100,7 @@ INSERT INTO `notices` (`id`, `title`, `description`, `category`, `priority`, `is
 (3, 'Community Project Guidelines (AY 2025-26)', 'All first-year CSE (ICB) student teams must submit their problem statement and survey analysis report by 10th October.', 'CBP', 'high', FALSE, 'student', '2025-09-26', 'CBP Coordinator'),
 (4, 'Hostel Mess Menu - This Week', 'Updated vegetarian and non-vegetarian catering schedule for the boys and girls hostel mess has been released.', 'Hostel', 'normal', FALSE, 'student', '2025-09-25', 'Hostel Warden'),
 (5, 'Placement Training Session - Register Now', 'Campus Placement Cell announces pre-placement aptitude and technical interview prep sessions starting Saturday.', 'Placement', 'normal', FALSE, 'all', '2025-09-24', 'Placement Officer'),
-(6, 'Department Meeting', 'All faculty members are requested to attend the monthly academic progress and NAAC documentation meeting.', 'Faculty', 'high', TRUE, 'teacher', '2025-09-28', 'Dr. R. Kumar, HOD');
+(6, 'Department Meeting', 'All faculty members are requested to attend the monthly academic progress and NAAC documentation meeting.', 'Faculty', 'high', TRUE, 'teacher', '2025-09-28', 'Dr. Kushal Kumar B. N.');
 
 -- 13. Events & Activities (Matches screenshot)
 INSERT INTO `events` (`id`, `title`, `category`, `event_date`, `time_range`, `venue`, `organizer`, `description`, `registered_count`) VALUES
@@ -123,7 +123,7 @@ INSERT INTO `placements` (`company_name`, `job_title`, `role_type`, `package_det
 
 -- 16. Community Project Details (From PPTX)
 INSERT INTO `community_activities` (`id`, `project_title`, `team_name`, `team_members`, `mentor`, `status`, `objective`, `presentation_date`) VALUES
-(1, 'CSE (ICB) Department Integrated Academic and Information Portal', 'STACK X', 'D V Manas Srujan (1KS25IC015), Hussain Basha (1KS25IC023), M Pavani Gowda (1KS25IC033), Purvi B V (1KS25IC045)', 'Prof. R. Sharma & Dr. R. Kumar', 'In Progress', 'Centralize all scattered academic materials, attendance tracking, syllabus, PYQ, and announcements into a single unified department portal.', '2026-09-29');
+(1, 'CSE (ICB) Department Integrated Academic and Information Portal', 'STACK X', 'D V Manas Srujan (1KS25IC015), Hussain Basha (1KS25IC023), M Pavani Gowda (1KS25IC033), Purvi B V (1KS25IC045)', 'Prof. Kavya K. S. (Math)', 'In Progress', 'Centralize all scattered academic materials, attendance tracking, syllabus, PYQ, and announcements into a single unified department portal.', '2026-09-29');
 
 -- 17. Survey Findings (Slide 6, 7, 8 - N=56 students on 26/09/2026)
 INSERT INTO `survey_responses` (`question_number`, `question_text`, `category`, `student_count`, `total_surveyed`, `percentage`) VALUES
@@ -143,6 +143,6 @@ INSERT INTO `survey_responses` (`question_number`, `question_text`, `category`, 
 
 -- 18. Notifications
 INSERT INTO `notifications` (`user_id`, `title`, `message`, `type`, `is_read`) VALUES
-(1, 'Assignment 1 Released', 'Prof. R. Sharma posted Assignment 1 for Programming in C due on Oct 04.', 'assignment', FALSE),
+(1, 'Assignment 1 Released', 'Prof. Kavya K. S. (Math) posted Assignment 1 for Programming in C due on Oct 04.', 'assignment', FALSE),
 (2, 'Class Test Announced', 'Internal Test 1 timetable published for First Year CSE (ICB).', 'exam', FALSE),
 (1, 'New Study Material', 'Dr. S. Ramesh uploaded Module 1 Calculus Notes to the Academic Hub.', 'resource', FALSE);
