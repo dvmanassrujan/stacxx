@@ -98,8 +98,16 @@ async function apiFetch(url, options = {}) {
 
 // Check session on page reload or load
 async function checkAuthSession() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const forceLogin = urlParams.has('login') || window.location.hash === '#login';
+
+  // Only auto-restore if user was explicitly marked as authenticated in this session or explicitly remembered
+  const hasActiveSession = sessionStorage.getItem('ksit_authenticated_session') === 'true' || 
+                           (localStorage.getItem('ksit_remember_me') === 'true' && !forceLogin);
+
   const token = localStorage.getItem('ksit_portal_token') || sessionStorage.getItem('ksit_portal_token');
-  if (!token) {
+
+  if (!token || !hasActiveSession || forceLogin) {
     showLoginView();
     return false;
   }
@@ -120,11 +128,11 @@ async function checkAuthSession() {
     } else {
       localStorage.removeItem('ksit_portal_token');
       sessionStorage.removeItem('ksit_portal_token');
+      sessionStorage.removeItem('ksit_authenticated_session');
       showLoginView();
       return false;
     }
   } catch (err) {
-    console.error('Session validation error:', err);
     showLoginView();
     return false;
   }
@@ -265,9 +273,12 @@ async function handleStudentLogin(e) {
     const data = await res.json();
 
     if (data.success && data.token) {
+      sessionStorage.setItem('ksit_authenticated_session', 'true');
       if (remember) {
+        localStorage.setItem('ksit_remember_me', 'true');
         localStorage.setItem('ksit_portal_token', data.token);
       } else {
+        localStorage.removeItem('ksit_remember_me');
         sessionStorage.setItem('ksit_portal_token', data.token);
       }
       AppState.token = data.token;
@@ -322,9 +333,12 @@ async function handleTeacherLogin(e) {
     const data = await res.json();
 
     if (data.success && data.token) {
+      sessionStorage.setItem('ksit_authenticated_session', 'true');
       if (remember) {
+        localStorage.setItem('ksit_remember_me', 'true');
         localStorage.setItem('ksit_portal_token', data.token);
       } else {
+        localStorage.removeItem('ksit_remember_me');
         sessionStorage.setItem('ksit_portal_token', data.token);
       }
       AppState.token = data.token;
@@ -379,9 +393,12 @@ async function handleDeptLogin(e) {
     const data = await res.json();
 
     if (data.success && data.token) {
+      sessionStorage.setItem('ksit_authenticated_session', 'true');
       if (remember) {
+        localStorage.setItem('ksit_remember_me', 'true');
         localStorage.setItem('ksit_portal_token', data.token);
       } else {
+        localStorage.removeItem('ksit_remember_me');
         sessionStorage.setItem('ksit_portal_token', data.token);
       }
       AppState.token = data.token;
@@ -413,10 +430,6 @@ async function handleDeptLogin(e) {
 
 // User Logout Functionality
 async function handleLogout() {
-  if (!confirm('Are you sure you want to log out of the KSIT Portal?')) {
-    return;
-  }
-
   try {
     await fetch('/api/auth/logout', { method: 'POST' });
   } catch (err) {
@@ -424,7 +437,9 @@ async function handleLogout() {
   }
 
   localStorage.removeItem('ksit_portal_token');
+  localStorage.removeItem('ksit_remember_me');
   sessionStorage.removeItem('ksit_portal_token');
+  sessionStorage.removeItem('ksit_authenticated_session');
 
   AppState.token = null;
   AppState.user = null;
@@ -433,7 +448,33 @@ async function handleLogout() {
   AppState.currentTab = 'dashboard';
 
   showLoginView();
-  showToast('You have been logged out securely.');
+  showToast('You have been logged out. Login screen is active.');
+}
+
+// Instant Demo Access for evaluator convenience
+async function directDemoLogin(role = 'student') {
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ role })
+    });
+    const data = await res.json();
+    if (data.token) {
+      sessionStorage.setItem('ksit_authenticated_session', 'true');
+      sessionStorage.setItem('ksit_portal_token', data.token);
+      AppState.token = data.token;
+      AppState.user = data.user;
+      AppState.profile = data.profile;
+      AppState.currentRole = data.user.role;
+      AppState.currentTab = 'dashboard';
+      AppState.isAuthenticated = true;
+      showAppView();
+      showToast(`Welcome! Entered ${role} dashboard in demo mode.`);
+    }
+  } catch (err) {
+    showLoginAlert('Demo access error: ' + err.message);
+  }
 }
 
 // Forgot Password Modal Flow for Faculty & Department Staff
@@ -500,6 +541,18 @@ async function submitForgotPassword(role) {
   }
 }
 
+// Window global bindings for inline HTML handlers
+window.directDemoLogin = directDemoLogin;
+window.showLoginView = showLoginView;
+window.showAppView = showAppView;
+window.handleLogout = handleLogout;
+window.switchLoginRole = switchLoginRole;
+window.quickFillStudent = quickFillStudent;
+window.quickFillTeacher = quickFillTeacher;
+window.quickFillDept = quickFillDept;
+window.togglePasswordVisibility = togglePasswordVisibility;
+window.openForgotPasswordModal = openForgotPasswordModal;
+
 // Switch Role Function (Preserved for compatibility)
 async function switchRole(role, triggerRender = true) {
   AppState.currentRole = role;
@@ -545,7 +598,7 @@ async function fetchDbStatus() {
 function updateDbBadge() {
   const badge = document.getElementById('dbStatusBadge');
   if (!badge) return;
-  const isMysql = AppState.dbStatus.engine === 'mysql';
+  const isMysql = AppState.dbStatus?.engine === 'mysql';
   badge.innerHTML = `
     <span class="db-pulse-dot" style="background: ${isMysql ? '#10b981' : '#3b82f6'};"></span>
     <span>${isMysql ? 'MySQL: Connected' : 'Relational Store: Active'}</span>

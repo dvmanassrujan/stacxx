@@ -215,6 +215,22 @@
         </div>
       </form>
 
+      <!-- Direct 1-Click Dashboard Access Bar (For Quick Evaluation & Demo) -->
+      <div class="login-direct-access-bar">
+        <div class="direct-access-title">⚡ Instant Dashboard Access (No typing needed)</div>
+        <div class="direct-access-buttons">
+          <button type="button" class="direct-acc-btn student-acc-btn" onclick="directDemoLogin('student')">
+            <span>🎓</span> View Student Dashboard
+          </button>
+          <button type="button" class="direct-acc-btn teacher-acc-btn" onclick="directDemoLogin('teacher')">
+            <span>👨‍🏫</span> View Faculty Dashboard
+          </button>
+          <button type="button" class="direct-acc-btn dept-acc-btn" onclick="directDemoLogin('department')">
+            <span>🏛️</span> View Department Desk
+          </button>
+        </div>
+      </div>
+
       <!-- Institutional Badges & Security Footer -->
       <div class="login-footer-security">
         <span>🔒 256-Bit SSL Encrypted</span>
@@ -283,6 +299,12 @@
 
         <!-- Role Badge & Sign Out Button -->
         <div class="header-actions" style="margin-left:auto; display:flex; align-items:center; gap:12px;">
+          <!-- Quick Return to Login Screen -->
+          <button class="btn-return-login" onclick="showLoginView()" title="Return to Login Screen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            <span>🔐 Login Screen</span>
+          </button>
+
           <!-- Active Role Display Badge -->
           <div class="auth-session-badge" id="authRoleBadge">
             <span>🎓</span> <span>Session Active</span>

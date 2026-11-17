@@ -20,3 +20,6 @@ Thumbs.db
 # IDE Files
 .vscode/
 .idea/
+
+# Scratch scripts
+scratch/
