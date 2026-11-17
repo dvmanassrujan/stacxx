@@ -1,33 +1,280 @@
 {
   "users": [
-    { "id": 1, "username": "hussain", "password_hash": "password123", "role": "student", "name": "Hussain Basha", "email": "hussain.basha@ksit.edu.in", "phone": "+91 98450 11223", "avatar_url": "/assets/avatars/student1.png" },
-    { "id": 2, "username": "manas", "password_hash": "password123", "role": "student", "name": "D V Manas Srujan", "email": "manas.srujan@ksit.edu.in", "phone": "+91 98450 22334", "avatar_url": "/assets/avatars/student2.png" },
-    { "id": 3, "username": "pavani", "password_hash": "password123", "role": "student", "name": "M Pavani Gowda", "email": "pavani.gowda@ksit.edu.in", "phone": "+91 98450 33445", "avatar_url": "/assets/avatars/student3.png" },
-    { "id": 4, "username": "purvi", "password_hash": "password123", "role": "student", "name": "Purvi B V", "email": "purvi.bv@ksit.edu.in", "phone": "+91 98450 44556", "avatar_url": "/assets/avatars/student4.png" },
-    { "id": 5, "username": "prof_kavya", "password_hash": "password123", "role": "teacher", "name": "Prof. Kavya K. S. (Math)", "email": "kavya.ks@ksit.edu.in", "phone": "+91 98450 55667", "avatar_url": "/assets/avatars/teacher1.png" },
-    { "id": 6, "username": "dr_ramesh", "password_hash": "password123", "role": "teacher", "name": "Dr. S. Ramesh", "email": "s.ramesh@ksit.edu.in", "phone": "+91 98450 66778", "avatar_url": "/assets/avatars/teacher2.png" },
-    { "id": 7, "username": "prof_khan", "password_hash": "password123", "role": "teacher", "name": "Prof. A. Khan", "email": "a.khan@ksit.edu.in", "phone": "+91 98450 77889", "avatar_url": "/assets/avatars/teacher3.png" },
-    { "id": 8, "username": "dr_kushal", "password_hash": "password123", "role": "department", "name": "Dr. Kushal Kumar B. N.", "email": "hod.cse@ksit.edu.in", "phone": "+91 98450 88990", "avatar_url": "/assets/avatars/hod.png" }
+    {
+      "id": 1,
+      "username": "hussain",
+      "password_hash": "password123",
+      "role": "student",
+      "name": "Hussain Basha",
+      "email": "hussain.basha@ksit.edu.in",
+      "phone": "+91 98450 11223",
+      "avatar_url": "/assets/avatars/student1.png"
+    },
+    {
+      "id": 2,
+      "username": "manas",
+      "password_hash": "password123",
+      "role": "student",
+      "name": "D V Manas Srujan",
+      "email": "manas.srujan@ksit.edu.in",
+      "phone": "+91 98450 22334",
+      "avatar_url": "/assets/avatars/student2.png"
+    },
+    {
+      "id": 3,
+      "username": "pavani",
+      "password_hash": "password123",
+      "role": "student",
+      "name": "M Pavani Gowda",
+      "email": "pavani.gowda@ksit.edu.in",
+      "phone": "+91 98450 33445",
+      "avatar_url": "/assets/avatars/student3.png"
+    },
+    {
+      "id": 4,
+      "username": "purvi",
+      "password_hash": "password123",
+      "role": "student",
+      "name": "Purvi B V",
+      "email": "purvi.bv@ksit.edu.in",
+      "phone": "+91 98450 44556",
+      "avatar_url": "/assets/avatars/student4.png"
+    },
+    {
+      "id": 5,
+      "username": "prof_kavya",
+      "password_hash": "password123",
+      "role": "teacher",
+      "name": "Prof. Kavya K. S. (Math)",
+      "email": "kavya.ks@ksit.edu.in",
+      "phone": "+91 98450 55667",
+      "avatar_url": "/assets/avatars/teacher1.png"
+    },
+    {
+      "id": 6,
+      "username": "dr_ramesh",
+      "password_hash": "password123",
+      "role": "teacher",
+      "name": "Dr. S. Ramesh",
+      "email": "s.ramesh@ksit.edu.in",
+      "phone": "+91 98450 66778",
+      "avatar_url": "/assets/avatars/teacher2.png"
+    },
+    {
+      "id": 7,
+      "username": "prof_khan",
+      "password_hash": "password123",
+      "role": "teacher",
+      "name": "Prof. A. Khan",
+      "email": "a.khan@ksit.edu.in",
+      "phone": "+91 98450 77889",
+      "avatar_url": "/assets/avatars/teacher3.png"
+    },
+    {
+      "id": 8,
+      "username": "dr_kushal",
+      "password_hash": "password123",
+      "role": "department",
+      "name": "Dr. Kushal Kumar B. N.",
+      "email": "hod.cse@ksit.edu.in",
+      "phone": "+91 98450 88990",
+      "avatar_url": "/assets/avatars/hod.png",
+      "employee_id": "KSIT-HOD-001",
+      "staff_id": "KSIT-HOD-001"
+    }
   ],
   "students": [
-    { "id": 1, "user_id": 1, "usn": "1KS25IC023", "name": "Hussain Basha", "year": "1st Year", "semester": 1, "section": "A", "department": "CSE (ICB)", "cgpa": 8.12, "present_days": 46, "total_days": 50, "attendance_pct": 92.0, "blood_group": "O+", "mentor_name": "Prof. Kavya K. S. (Math)" },
-    { "id": 2, "user_id": 2, "usn": "1KS25IC015", "name": "D V Manas Srujan", "year": "1st Year", "semester": 1, "section": "A", "department": "CSE (ICB)", "cgpa": 8.45, "present_days": 48, "total_days": 50, "attendance_pct": 96.0, "blood_group": "B+", "mentor_name": "Prof. Kavya K. S. (Math)" },
-    { "id": 3, "user_id": 3, "usn": "1KS25IC033", "name": "M Pavani Gowda", "year": "1st Year", "semester": 1, "section": "A", "department": "CSE (ICB)", "cgpa": 8.30, "present_days": 47, "total_days": 50, "attendance_pct": 94.0, "blood_group": "A+", "mentor_name": "Prof. Kavya K. S. (Math)" },
-    { "id": 4, "user_id": 4, "usn": "1KS25IC045", "name": "Purvi B V", "year": "1st Year", "semester": 1, "section": "A", "department": "CSE (ICB)", "cgpa": 8.60, "present_days": 49, "total_days": 50, "attendance_pct": 98.0, "blood_group": "AB+", "mentor_name": "Prof. Kavya K. S. (Math)" }
+    {
+      "id": 1,
+      "user_id": 1,
+      "usn": "1KS25IC023",
+      "name": "Hussain Basha",
+      "year": "1st Year",
+      "semester": 1,
+      "section": "A",
+      "department": "CSE (ICB)",
+      "cgpa": 8.12,
+      "present_days": 46,
+      "total_days": 50,
+      "attendance_pct": 92,
+      "blood_group": "O+",
+      "mentor_name": "Prof. Kavya K. S. (Math)",
+      "dob": "2006-04-15",
+      "dob_hash": "caecc587cb98dd00e507f1affec93f07:405c8193d726c03074c467b9e2ade90e9e954aef8368571406f73392877bb2ed8146a998b5da9e942c3ad2313d4b9cdf8f1cdf29b4c2cc85c10b61fd2e2f80d5"
+    },
+    {
+      "id": 2,
+      "user_id": 2,
+      "usn": "1KS25IC015",
+      "name": "D V Manas Srujan",
+      "year": "1st Year",
+      "semester": 1,
+      "section": "A",
+      "department": "CSE (ICB)",
+      "cgpa": 8.45,
+      "present_days": 48,
+      "total_days": 50,
+      "attendance_pct": 96,
+      "blood_group": "B+",
+      "mentor_name": "Prof. Kavya K. S. (Math)",
+      "dob": "2006-08-20",
+      "dob_hash": "c714761eee8ed107f333f38e98323370:19fdea47592e9eb9976432a76dad0720ae5aa994dc9b0871b605cb9d67e706a4e3f802aa331d7592fc6f79117731fb99afb50caf9ac723038f61a34872457025"
+    },
+    {
+      "id": 3,
+      "user_id": 3,
+      "usn": "1KS25IC033",
+      "name": "M Pavani Gowda",
+      "year": "1st Year",
+      "semester": 1,
+      "section": "A",
+      "department": "CSE (ICB)",
+      "cgpa": 8.3,
+      "present_days": 47,
+      "total_days": 50,
+      "attendance_pct": 94,
+      "blood_group": "A+",
+      "mentor_name": "Prof. Kavya K. S. (Math)",
+      "dob": "2006-01-10",
+      "dob_hash": "759610573c91f5339833ba823acbe4a2:f4c76d2364962b83fb72f0227934e80ef97306ce74994e51be8976ddee3ea937d4f8d10cc80a0f5c1bbf2c7ddc5555165e584cf6f71fbdee30d654490c3ee001"
+    },
+    {
+      "id": 4,
+      "user_id": 4,
+      "usn": "1KS25IC045",
+      "name": "Purvi B V",
+      "year": "1st Year",
+      "semester": 1,
+      "section": "A",
+      "department": "CSE (ICB)",
+      "cgpa": 8.6,
+      "present_days": 49,
+      "total_days": 50,
+      "attendance_pct": 98,
+      "blood_group": "AB+",
+      "mentor_name": "Prof. Kavya K. S. (Math)",
+      "dob": "2006-11-05",
+      "dob_hash": "1a4448f648abf74d063d296118fb7538:6768a6fe40cca12cf4875ecb370cea7ea2e1cd47fe71be277660e60660404762a7e9ace69bf6fbcd4874013aee71c33ff16bf2858e909c4758b25ab780d8800c"
+    }
   ],
   "teachers": [
-    { "id": 1, "user_id": 5, "employee_id": "KSIT-FAC-014", "name": "Prof. Kavya K. S. (Math)", "designation": "Assistant Professor", "department": "Mathematics • CSE (ICB)", "qualification": "M.Sc. (Mathematics), Ph.D.", "cabin_no": "B-304", "total_students": 120, "classes_today": 4, "pending_evaluations": 18, "notices_count": 2 },
-    { "id": 2, "user_id": 6, "employee_id": "KSIT-FAC-008", "name": "Dr. S. Ramesh", "designation": "Associate Professor", "department": "Mathematics", "qualification": "M.Sc., Ph.D.", "cabin_no": "A-201", "total_students": 120, "classes_today": 3, "pending_evaluations": 8, "notices_count": 1 },
-    { "id": 3, "user_id": 7, "employee_id": "KSIT-FAC-019", "name": "Prof. A. Khan", "designation": "Assistant Professor", "department": "Physics", "qualification": "M.Sc., M.Phil.", "cabin_no": "A-205", "total_students": 120, "classes_today": 2, "pending_evaluations": 5, "notices_count": 1 }
+    {
+      "id": 1,
+      "user_id": 5,
+      "employee_id": "KSIT-FAC-014",
+      "name": "Prof. Kavya K. S. (Math)",
+      "designation": "Assistant Professor",
+      "department": "Mathematics • CSE (ICB)",
+      "qualification": "M.Sc. (Mathematics), Ph.D.",
+      "cabin_no": "B-304",
+      "total_students": 120,
+      "classes_today": 4,
+      "pending_evaluations": 18,
+      "notices_count": 2,
+      "phone": "+91 98450 55667"
+    },
+    {
+      "id": 2,
+      "user_id": 6,
+      "employee_id": "KSIT-FAC-008",
+      "name": "Dr. S. Ramesh",
+      "designation": "Associate Professor",
+      "department": "Mathematics",
+      "qualification": "M.Sc., Ph.D.",
+      "cabin_no": "A-201",
+      "total_students": 120,
+      "classes_today": 3,
+      "pending_evaluations": 8,
+      "notices_count": 1,
+      "phone": "+91 98450 66778"
+    },
+    {
+      "id": 3,
+      "user_id": 7,
+      "employee_id": "KSIT-FAC-019",
+      "name": "Prof. A. Khan",
+      "designation": "Assistant Professor",
+      "department": "Physics",
+      "qualification": "M.Sc., M.Phil.",
+      "cabin_no": "A-205",
+      "total_students": 120,
+      "classes_today": 2,
+      "pending_evaluations": 5,
+      "notices_count": 1,
+      "phone": "+91 98450 77889"
+    }
   ],
   "subjects": [
-    { "id": 1, "code": "MAT101", "name": "Mathematics", "semester": 1, "credits": 4, "faculty_name": "Dr. S. Ramesh", "classes_conducted": 20, "attendance_rate": 93 },
-    { "id": 2, "code": "PHY102", "name": "Physics", "semester": 1, "credits": 4, "faculty_name": "Prof. A. Khan", "classes_conducted": 20, "attendance_rate": 91 },
-    { "id": 3, "code": "CSE103", "name": "Programming in C", "semester": 1, "credits": 4, "faculty_name": "Prof. Kavya K. S. (Math)", "classes_conducted": 20, "attendance_rate": 94 },
-    { "id": 4, "code": "ENG104", "name": "Engineering Graphics", "semester": 1, "credits": 3, "faculty_name": "Prof. Kavya K. S. (Math)", "classes_conducted": 20, "attendance_rate": 90 },
-    { "id": 5, "code": "CSE301", "name": "Data Structures & Algorithms", "semester": 3, "credits": 4, "faculty_name": "Dr. L. Priya", "classes_conducted": 22, "attendance_rate": 89 },
-    { "id": 6, "code": "CSE302", "name": "DBMS", "semester": 3, "credits": 4, "faculty_name": "Prof. K. Nanda", "classes_conducted": 22, "attendance_rate": 92 },
-    { "id": 7, "code": "CSE401", "name": "Cybersecurity", "semester": 7, "credits": 3, "faculty_name": "Dr. M. Fazil", "classes_conducted": 18, "attendance_rate": 95 }
+    {
+      "id": 1,
+      "code": "MAT101",
+      "name": "Mathematics",
+      "semester": 1,
+      "credits": 4,
+      "faculty_name": "Dr. S. Ramesh",
+      "classes_conducted": 20,
+      "attendance_rate": 93
+    },
+    {
+      "id": 2,
+      "code": "PHY102",
+      "name": "Physics",
+      "semester": 1,
+      "credits": 4,
+      "faculty_name": "Prof. A. Khan",
+      "classes_conducted": 20,
+      "attendance_rate": 91
+    },
+    {
+      "id": 3,
+      "code": "CSE103",
+      "name": "Programming in C",
+      "semester": 1,
+      "credits": 4,
+      "faculty_name": "Prof. Kavya K. S. (Math)",
+      "classes_conducted": 20,
+      "attendance_rate": 94
+    },
+    {
+      "id": 4,
+      "code": "ENG104",
+      "name": "Engineering Graphics",
+      "semester": 1,
+      "credits": 3,
+      "faculty_name": "Prof. Kavya K. S. (Math)",
+      "classes_conducted": 20,
+      "attendance_rate": 90
+    },
+    {
+      "id": 5,
+      "code": "CSE301",
+      "name": "Data Structures & Algorithms",
+      "semester": 3,
+      "credits": 4,
+      "faculty_name": "Dr. L. Priya",
+      "classes_conducted": 22,
+      "attendance_rate": 89
+    },
+    {
+      "id": 6,
+      "code": "CSE302",
+      "name": "DBMS",
+      "semester": 3,
+      "credits": 4,
+      "faculty_name": "Prof. K. Nanda",
+      "classes_conducted": 22,
+      "attendance_rate": 92
+    },
+    {
+      "id": 7,
+      "code": "CSE401",
+      "name": "Cybersecurity",
+      "semester": 7,
+      "credits": 3,
+      "faculty_name": "Dr. M. Fazil",
+      "classes_conducted": 18,
+      "attendance_rate": 95
+    }
   ],
   "timetable": [
     {
@@ -99,7 +346,7 @@
       "subject_name": "Mathematics",
       "classes_held": 20,
       "classes_attended": 19,
-      "percentage": 95.0,
+      "percentage": 95,
       "status": "Good (>75%)"
     },
     {
@@ -109,7 +356,7 @@
       "subject_name": "Physics",
       "classes_held": 20,
       "classes_attended": 18,
-      "percentage": 90.0,
+      "percentage": 90,
       "status": "Good (>75%)"
     },
     {
@@ -119,7 +366,7 @@
       "subject_name": "Programming in C",
       "classes_held": 20,
       "classes_attended": 19,
-      "percentage": 95.0,
+      "percentage": 95,
       "status": "Good (>75%)"
     },
     {
@@ -129,24 +376,189 @@
       "subject_name": "Engineering Graphics",
       "classes_held": 20,
       "classes_attended": 17,
-      "percentage": 85.0,
+      "percentage": 85,
       "status": "Good (>75%)"
     }
   ],
   "study_materials": [
-    { "id": 1, "title": "Engineering Mathematics - Module 1 Calculus & Differential Equations", "description": "Comprehensive lecture notes, step-by-step problem sets, and VTU exemplar solutions.", "category": "notes", "subject_id": 1, "subject_name": "Mathematics", "semester": 1, "file_url": "/downloads/maths_module1.pdf", "external_url": null, "file_size": "4.2 MB", "file_type": "PDF", "uploaded_by": "Dr. S. Ramesh", "downloads_count": 128, "created_at": "2025-09-20" },
-    { "id": 2, "title": "Programming in C - Pointers, Memory & Data Structures Slide Deck", "description": "Structured programming concepts, pointers, memory allocation, arrays, structs, and recursion.", "category": "notes", "subject_id": 3, "subject_name": "Programming in C", "semester": 1, "file_url": "/downloads/c_programming_pointers.pdf", "external_url": null, "file_size": "3.8 MB", "file_type": "PDF", "uploaded_by": "Prof. Kavya K. S. (Math)", "downloads_count": 194, "created_at": "2025-09-22" },
-    { "id": 3, "title": "Applied Engineering Physics - Optical Fibers, Lasers & Wave Optics", "description": "Complete unit notes with lab practical guides, numerical problem sets, and derivation sheets.", "category": "notes", "subject_id": 2, "subject_name": "Physics", "semester": 1, "file_url": "/downloads/physics_unit2.pdf", "external_url": null, "file_size": "2.9 MB", "file_type": "PDF", "uploaded_by": "Prof. A. Khan", "downloads_count": 88, "created_at": "2025-09-23" },
-    { "id": 4, "title": "CSE (ICB) 2025-26 Scheme & Detailed Syllabus Curriculum Document", "description": "Official autonomous syllabus for 1st Year to 4th Year Computer Science & Engineering (ICB).", "category": "syllabus", "subject_id": 3, "subject_name": "Computer Science (ICB)", "semester": 1, "file_url": "/downloads/cse_icb_curriculum_2025.pdf", "external_url": null, "file_size": "1.5 MB", "file_type": "PDF", "uploaded_by": "HOD - CSE (ICB)", "downloads_count": 312, "created_at": "2025-09-15" },
-    { "id": 5, "title": "VTU Semester-End Examination Question Papers Bundle (2021 - 2024)", "description": "Solved previous year examination question papers with model answers for 1st Year subjects.", "category": "pyq", "subject_id": 1, "subject_name": "All 1st Sem Subjects", "semester": 1, "file_url": "/downloads/pyq_bundle_sem1.pdf", "external_url": null, "file_size": "8.6 MB", "file_type": "PDF", "uploaded_by": "Prof. Kavya K. S. (Math)", "downloads_count": 246, "created_at": "2025-09-18" },
-    { "id": 6, "title": "Research Paper: Modern Optimization in Federated Deep Learning Systems", "description": "IEEE curated research survey paper recommended for student technical seminars and CBP literature.", "category": "research_paper", "subject_id": 3, "subject_name": "Computer Science", "semester": 1, "file_url": "/downloads/federated_dl_survey.pdf", "external_url": "https://ieeexplore.ieee.org", "file_size": "1.2 MB", "file_type": "PDF", "uploaded_by": "Prof. Kavya K. S. (Math)", "downloads_count": 54, "created_at": "2025-09-24" },
-    { "id": 7, "title": "NPTEL: Problem Solving through Programming in C (IIT Kharagpur)", "description": "Government of India 12-week certification course with weekly assignments and VTU credit mapping.", "category": "online_course", "subject_id": 3, "subject_name": "Programming in C", "semester": 1, "file_url": null, "external_url": "https://nptel.ac.in/courses/106105171", "file_size": "Online", "file_type": "LINK", "uploaded_by": "Prof. Kavya K. S. (Math)", "downloads_count": 142, "created_at": "2025-09-10" },
-    { "id": 8, "title": "AWS Certified Cloud Practitioner - Department Student Study Track", "description": "Cloud fundamentals curriculum with hands-on labs and examination vouchers for CSE (ICB) students.", "category": "certification", "subject_id": 3, "subject_name": "Cloud Computing", "semester": 1, "file_url": null, "external_url": "https://aws.amazon.com/certification/certified-cloud-practitioner/", "file_size": "Online", "file_type": "LINK", "uploaded_by": "HOD - CSE (ICB)", "downloads_count": 115, "created_at": "2025-09-12" }
+    {
+      "id": 1,
+      "title": "Engineering Mathematics - Module 1 Calculus & Differential Equations",
+      "description": "Comprehensive lecture notes, step-by-step problem sets, and VTU exemplar solutions.",
+      "category": "notes",
+      "subject_id": 1,
+      "subject_name": "Mathematics",
+      "semester": 1,
+      "file_url": "/downloads/maths_module1.pdf",
+      "external_url": null,
+      "file_size": "4.2 MB",
+      "file_type": "PDF",
+      "uploaded_by": "Dr. S. Ramesh",
+      "downloads_count": 128,
+      "created_at": "2025-09-20"
+    },
+    {
+      "id": 2,
+      "title": "Programming in C - Pointers, Memory & Data Structures Slide Deck",
+      "description": "Structured programming concepts, pointers, memory allocation, arrays, structs, and recursion.",
+      "category": "notes",
+      "subject_id": 3,
+      "subject_name": "Programming in C",
+      "semester": 1,
+      "file_url": "/downloads/c_programming_pointers.pdf",
+      "external_url": null,
+      "file_size": "3.8 MB",
+      "file_type": "PDF",
+      "uploaded_by": "Prof. Kavya K. S. (Math)",
+      "downloads_count": 194,
+      "created_at": "2025-09-22"
+    },
+    {
+      "id": 3,
+      "title": "Applied Engineering Physics - Optical Fibers, Lasers & Wave Optics",
+      "description": "Complete unit notes with lab practical guides, numerical problem sets, and derivation sheets.",
+      "category": "notes",
+      "subject_id": 2,
+      "subject_name": "Physics",
+      "semester": 1,
+      "file_url": "/downloads/physics_unit2.pdf",
+      "external_url": null,
+      "file_size": "2.9 MB",
+      "file_type": "PDF",
+      "uploaded_by": "Prof. A. Khan",
+      "downloads_count": 88,
+      "created_at": "2025-09-23"
+    },
+    {
+      "id": 4,
+      "title": "CSE (ICB) 2025-26 Scheme & Detailed Syllabus Curriculum Document",
+      "description": "Official autonomous syllabus for 1st Year to 4th Year Computer Science & Engineering (ICB).",
+      "category": "syllabus",
+      "subject_id": 3,
+      "subject_name": "Computer Science (ICB)",
+      "semester": 1,
+      "file_url": "/downloads/cse_icb_curriculum_2025.pdf",
+      "external_url": null,
+      "file_size": "1.5 MB",
+      "file_type": "PDF",
+      "uploaded_by": "HOD - CSE (ICB)",
+      "downloads_count": 312,
+      "created_at": "2025-09-15"
+    },
+    {
+      "id": 5,
+      "title": "VTU Semester-End Examination Question Papers Bundle (2021 - 2024)",
+      "description": "Solved previous year examination question papers with model answers for 1st Year subjects.",
+      "category": "pyq",
+      "subject_id": 1,
+      "subject_name": "All 1st Sem Subjects",
+      "semester": 1,
+      "file_url": "/downloads/pyq_bundle_sem1.pdf",
+      "external_url": null,
+      "file_size": "8.6 MB",
+      "file_type": "PDF",
+      "uploaded_by": "Prof. Kavya K. S. (Math)",
+      "downloads_count": 246,
+      "created_at": "2025-09-18"
+    },
+    {
+      "id": 6,
+      "title": "Research Paper: Modern Optimization in Federated Deep Learning Systems",
+      "description": "IEEE curated research survey paper recommended for student technical seminars and CBP literature.",
+      "category": "research_paper",
+      "subject_id": 3,
+      "subject_name": "Computer Science",
+      "semester": 1,
+      "file_url": "/downloads/federated_dl_survey.pdf",
+      "external_url": "https://ieeexplore.ieee.org",
+      "file_size": "1.2 MB",
+      "file_type": "PDF",
+      "uploaded_by": "Prof. Kavya K. S. (Math)",
+      "downloads_count": 54,
+      "created_at": "2025-09-24"
+    },
+    {
+      "id": 7,
+      "title": "NPTEL: Problem Solving through Programming in C (IIT Kharagpur)",
+      "description": "Government of India 12-week certification course with weekly assignments and VTU credit mapping.",
+      "category": "online_course",
+      "subject_id": 3,
+      "subject_name": "Programming in C",
+      "semester": 1,
+      "file_url": null,
+      "external_url": "https://nptel.ac.in/courses/106105171",
+      "file_size": "Online",
+      "file_type": "LINK",
+      "uploaded_by": "Prof. Kavya K. S. (Math)",
+      "downloads_count": 142,
+      "created_at": "2025-09-10"
+    },
+    {
+      "id": 8,
+      "title": "AWS Certified Cloud Practitioner - Department Student Study Track",
+      "description": "Cloud fundamentals curriculum with hands-on labs and examination vouchers for CSE (ICB) students.",
+      "category": "certification",
+      "subject_id": 3,
+      "subject_name": "Cloud Computing",
+      "semester": 1,
+      "file_url": null,
+      "external_url": "https://aws.amazon.com/certification/certified-cloud-practitioner/",
+      "file_size": "Online",
+      "file_type": "LINK",
+      "uploaded_by": "HOD - CSE (ICB)",
+      "downloads_count": 115,
+      "created_at": "2025-09-12"
+    }
   ],
   "assignments": [
-    { "id": 1, "title": "Assignment 1: Pointer Manipulation & Dynamic Memory in C", "subject_name": "Programming in C", "subject_id": 3, "semester": 1, "faculty_name": "Prof. Kavya K. S. (Math)", "description": "Implement dynamic 2D matrices, pointer arithmetic, and struct serialization without stdlib string helpers.", "created_date": "2025-09-20", "deadline": "2025-10-04", "max_marks": 20, "status": "submitted", "submitted_date": "2025-09-27", "marks_obtained": null, "feedback": "Under review by Prof. Kavya K. S." },
-    { "id": 2, "title": "Internal Assignment: Differential Equations & Applications", "subject_name": "Mathematics", "subject_id": 1, "semester": 1, "faculty_name": "Dr. S. Ramesh", "description": "Complete assignment booklet on Bernoulli differential equations, orthogonal trajectories, and Cauchy-Euler equations.", "created_date": "2025-09-22", "deadline": "2025-10-06", "max_marks": 20, "status": "due_soon", "submitted_date": null, "marks_obtained": null, "feedback": null },
-    { "id": 3, "title": "Physics Lab Unit 2: Optical Fiber & Laser Numerical Report", "subject_name": "Physics", "subject_id": 2, "semester": 1, "faculty_name": "Prof. A. Khan", "description": "Submit laboratory report calculating numerical aperture, attenuation loss per kilometer, and refractive index profile.", "created_date": "2025-09-25", "deadline": "2025-10-08", "max_marks": 15, "status": "pending", "submitted_date": null, "marks_obtained": null, "feedback": null }
+    {
+      "id": 1,
+      "title": "Assignment 1: Pointer Manipulation & Dynamic Memory in C",
+      "subject_name": "Programming in C",
+      "subject_id": 3,
+      "semester": 1,
+      "faculty_name": "Prof. Kavya K. S. (Math)",
+      "description": "Implement dynamic 2D matrices, pointer arithmetic, and struct serialization without stdlib string helpers.",
+      "created_date": "2025-09-20",
+      "deadline": "2025-10-04",
+      "max_marks": 20,
+      "status": "submitted",
+      "submitted_date": "2025-09-27",
+      "marks_obtained": null,
+      "feedback": "Under review by Prof. Kavya K. S."
+    },
+    {
+      "id": 2,
+      "title": "Internal Assignment: Differential Equations & Applications",
+      "subject_name": "Mathematics",
+      "subject_id": 1,
+      "semester": 1,
+      "faculty_name": "Dr. S. Ramesh",
+      "description": "Complete assignment booklet on Bernoulli differential equations, orthogonal trajectories, and Cauchy-Euler equations.",
+      "created_date": "2025-09-22",
+      "deadline": "2025-10-06",
+      "max_marks": 20,
+      "status": "due_soon",
+      "submitted_date": null,
+      "marks_obtained": null,
+      "feedback": null
+    },
+    {
+      "id": 3,
+      "title": "Physics Lab Unit 2: Optical Fiber & Laser Numerical Report",
+      "subject_name": "Physics",
+      "subject_id": 2,
+      "semester": 1,
+      "faculty_name": "Prof. A. Khan",
+      "description": "Submit laboratory report calculating numerical aperture, attenuation loss per kilometer, and refractive index profile.",
+      "created_date": "2025-09-25",
+      "deadline": "2025-10-08",
+      "max_marks": 15,
+      "status": "pending",
+      "submitted_date": null,
+      "marks_obtained": null,
+      "feedback": null
+    }
   ],
   "assignment_submissions": [
     {
@@ -239,12 +651,72 @@
     }
   ],
   "notices": [
-    { "id": 1, "title": "Class Test Schedule - 1st Year CSE (ICB)", "description": "Internal Assessment Test 1 timetable published for First Year CSE (ICB). All students must carry college ID cards.", "category": "Exams", "priority": "High", "is_new": true, "target_role": "student", "date_posted": "28 Sep 2025", "author": "HOD - CSE (ICB)" },
-    { "id": 2, "title": "Library timings extended till 5 PM", "description": "Central and department library study halls will remain open until 5:00 PM on all weekdays for reference and project work.", "category": "General", "priority": "Normal", "is_new": false, "target_role": "all", "date_posted": "27 Sep 2025", "author": "Central Library" },
-    { "id": 3, "title": "Community Project Guidelines (AY 2025-26)", "description": "All 1st Year CSE (ICB) teams must submit their problem statement, survey analysis, and portal wireframes by 10th October.", "category": "CBP", "priority": "High", "is_new": false, "target_role": "student", "date_posted": "26 Sep 2025", "author": "CBP Coordinator" },
-    { "id": 4, "title": "Hostel Mess Menu - This Week", "description": "Revised South Indian & North Indian vegetarian/non-vegetarian catering menu for October 2025 has been approved.", "category": "Hostel", "priority": "Normal", "is_new": false, "target_role": "student", "date_posted": "25 Sep 2025", "author": "Hostel Committee" },
-    { "id": 5, "title": "Placement Training Session - Register Now", "description": "Department Placement Cell invites all students for pre-placement coding aptitude training commencing this Saturday.", "category": "Placement", "priority": "Normal", "is_new": false, "target_role": "all", "date_posted": "24 Sep 2025", "author": "Training & Placement Cell" },
-    { "id": 6, "title": "Department Faculty Meeting", "description": "All faculty members are requested to assemble in Seminar Hall for NBA accreditation review and marks moderation.", "category": "Faculty", "priority": "High", "is_new": true, "target_role": "teacher", "date_posted": "28 Sep 2025", "author": "Dr. Kushal Kumar B. N." }
+    {
+      "id": 1,
+      "title": "Class Test Schedule - 1st Year CSE (ICB)",
+      "description": "Internal Assessment Test 1 timetable published for First Year CSE (ICB). All students must carry college ID cards.",
+      "category": "Exams",
+      "priority": "High",
+      "is_new": true,
+      "target_role": "student",
+      "date_posted": "28 Sep 2025",
+      "author": "HOD - CSE (ICB)"
+    },
+    {
+      "id": 2,
+      "title": "Library timings extended till 5 PM",
+      "description": "Central and department library study halls will remain open until 5:00 PM on all weekdays for reference and project work.",
+      "category": "General",
+      "priority": "Normal",
+      "is_new": false,
+      "target_role": "all",
+      "date_posted": "27 Sep 2025",
+      "author": "Central Library"
+    },
+    {
+      "id": 3,
+      "title": "Community Project Guidelines (AY 2025-26)",
+      "description": "All 1st Year CSE (ICB) teams must submit their problem statement, survey analysis, and portal wireframes by 10th October.",
+      "category": "CBP",
+      "priority": "High",
+      "is_new": false,
+      "target_role": "student",
+      "date_posted": "26 Sep 2025",
+      "author": "CBP Coordinator"
+    },
+    {
+      "id": 4,
+      "title": "Hostel Mess Menu - This Week",
+      "description": "Revised South Indian & North Indian vegetarian/non-vegetarian catering menu for October 2025 has been approved.",
+      "category": "Hostel",
+      "priority": "Normal",
+      "is_new": false,
+      "target_role": "student",
+      "date_posted": "25 Sep 2025",
+      "author": "Hostel Committee"
+    },
+    {
+      "id": 5,
+      "title": "Placement Training Session - Register Now",
+      "description": "Department Placement Cell invites all students for pre-placement coding aptitude training commencing this Saturday.",
+      "category": "Placement",
+      "priority": "Normal",
+      "is_new": false,
+      "target_role": "all",
+      "date_posted": "24 Sep 2025",
+      "author": "Training & Placement Cell"
+    },
+    {
+      "id": 6,
+      "title": "Department Faculty Meeting",
+      "description": "All faculty members are requested to assemble in Seminar Hall for NBA accreditation review and marks moderation.",
+      "category": "Faculty",
+      "priority": "High",
+      "is_new": true,
+      "target_role": "teacher",
+      "date_posted": "28 Sep 2025",
+      "author": "Dr. Kushal Kumar B. N."
+    }
   ],
   "events": [
     {
@@ -322,7 +794,7 @@
       "category": "Current Challenges",
       "count": 49,
       "total": 56,
-      "percentage": 87.50,
+      "percentage": 87.5,
       "impact": "Critical"
     },
     {
@@ -392,7 +864,7 @@
       "category": "Feature Priorities",
       "count": 48,
       "total": 56,
-      "percentage": 85.70,
+      "percentage": 85.7,
       "impact": "Priority 1"
     },
     {
@@ -402,7 +874,7 @@
       "category": "Feature Priorities",
       "count": 41,
       "total": 56,
-      "percentage": 73.20,
+      "percentage": 73.2,
       "impact": "Priority 2"
     },
     {
@@ -412,7 +884,7 @@
       "category": "Feature Priorities",
       "count": 31,
       "total": 56,
-      "percentage": 55.40,
+      "percentage": 55.4,
       "impact": "Priority 3"
     },
     {
@@ -422,7 +894,7 @@
       "category": "Feature Priorities",
       "count": 31,
       "total": 56,
-      "percentage": 55.40,
+      "percentage": 55.4,
       "impact": "Priority 3"
     },
     {
@@ -432,7 +904,7 @@
       "category": "Feature Priorities",
       "count": 31,
       "total": 56,
-      "percentage": 55.40,
+      "percentage": 55.4,
       "impact": "Priority 3"
     }
   ],

@@ -1,13 +1,23 @@
 {
   "users": [
     {
+      "id": 12,
+      "username": "1ks25ic498",
+      "password_hash": "password123",
+      "role": "student",
+      "name": "Kavitha R",
+      "email": "1ks25ic498@ksit.edu.in",
+      "phone": "+91 98450 00000",
+      "avatar_url": "/assets/avatars/student.png"
+    },
+    {
       "id": 11,
       "username": "1ks25ic339",
       "password_hash": "password123",
       "role": "student",
       "name": "Kavitha R",
-      "email": "1ks25ic339@ksit.edu.in",
-      "phone": "+91 98450 00000",
+      "email": "hussain.fullstack@ksit.edu.in",
+      "phone": "+91 98450 77777",
       "avatar_url": "/assets/avatars/student.png"
     },
     {
@@ -108,7 +118,9 @@
       "name": "Dr. Kushal Kumar B. N.",
       "email": "hod.cse@ksit.edu.in",
       "phone": "+91 98450 88990",
-      "avatar_url": "/assets/avatars/hod.png"
+      "avatar_url": "/assets/avatars/hod.png",
+      "employee_id": "KSIT-HOD-001",
+      "staff_id": "KSIT-HOD-001"
     }
   ],
   "students": [
@@ -122,11 +134,13 @@
       "section": "A",
       "department": "CSE (ICB)",
       "cgpa": 8.12,
-      "present_days": 49,
-      "total_days": 55,
+      "present_days": 50,
+      "total_days": 56,
       "attendance_pct": 89,
       "blood_group": "O+",
-      "mentor_name": "Prof. Kavya K. S. (Math)"
+      "mentor_name": "Prof. Kavya K. S. (Math)",
+      "dob": "2006-04-15",
+      "dob_hash": "3be02d1881cbd358d5cd5d39bdfd5cf3:4af18993d59b0a6d6c054c85c3127225234cca335e6992a3bfd65957b050e33ffcaddda845e3e7812f98f996c0ff04611f67e1e46daa413d0ed89929a459c634"
     },
     {
       "id": 2,
@@ -142,7 +156,9 @@
       "total_days": 52,
       "attendance_pct": 92,
       "blood_group": "B+",
-      "mentor_name": "Prof. Kavya K. S. (Math)"
+      "mentor_name": "Prof. Kavya K. S. (Math)",
+      "dob": "2006-08-20",
+      "dob_hash": "ef27d912f54ba3e50e0acf42ec576482:1daa788331fb758efde3036a936f84adb4f467346720be85f9cabc05c1ec8249f273bb9933d6627a2e9f2ea8fc8b648319e89d23f111847ef27578f21eed5ef5"
     },
     {
       "id": 3,
@@ -158,7 +174,9 @@
       "total_days": 52,
       "attendance_pct": 94,
       "blood_group": "A+",
-      "mentor_name": "Prof. Kavya K. S. (Math)"
+      "mentor_name": "Prof. Kavya K. S. (Math)",
+      "dob": "2006-01-10",
+      "dob_hash": "2617d8e34f39f4bcb7563c57c1f38948:704c66e5bdec492fb553eee9e3b616c330711cce998e0ba3f4ea4bbfe47297289eb0cbbcc60ecc29c36d5150ae7ba2f5653e8d9905e182df3ab261000c06caa1"
     },
     {
       "id": 4,
@@ -174,7 +192,9 @@
       "total_days": 52,
       "attendance_pct": 98,
       "blood_group": "AB+",
-      "mentor_name": "Prof. Kavya K. S. (Math)"
+      "mentor_name": "Prof. Kavya K. S. (Math)",
+      "dob": "2006-11-05",
+      "dob_hash": "e4977b4dfd87ff21e0152d2e2f9d4fd8:a78d21dcd2a50b7e571bcadaa3a47b0b44471105e0dae1ea3669c947ef5e0839fa7bb2f88ec24e1e66ee9c5f1c264424cecd8d23d913ca076397b0b7687a6358"
     },
     {
       "id": 5,
@@ -190,7 +210,9 @@
       "total_days": 0,
       "attendance_pct": 100,
       "blood_group": "B+",
-      "mentor_name": "Prof. Kavya K. S. (Math)"
+      "mentor_name": "Prof. Kavya K. S. (Math)",
+      "dob": "2005-09-12",
+      "dob_hash": "114300880d5a8318f23441349c18cc20:3bed6ed355a0cd198f30cb3d7e51d18c9825bdca5cecb0ff6012e78690549bfbbaf989da5e0ab4e0ecb215ce24a87c3cbcdab297412c4e4628c88ada09eb5e83"
     },
     {
       "id": 6,
@@ -206,7 +228,9 @@
       "total_days": 0,
       "attendance_pct": 100,
       "blood_group": "B+",
-      "mentor_name": "Prof. Kavya K. S. (Math)"
+      "mentor_name": "Prof. Kavya K. S. (Math)",
+      "dob": "2006-03-25",
+      "dob_hash": "5e91cb560018dec1c99e24950fb24fe1:3b46741acffa7e44e222747fbe65994ea3f2152536450492c61d893f53df551b739348d799c3918f55bf4a5c5472ec82379289056292eaaf66810668da103a72"
     }
   ],
   "teachers": [
@@ -222,7 +246,8 @@
       "total_students": 120,
       "classes_today": 4,
       "pending_evaluations": 18,
-      "notices_count": 2
+      "notices_count": 2,
+      "phone": "+91 98450 55667"
     },
     {
       "id": 2,
@@ -236,7 +261,8 @@
       "total_students": 120,
       "classes_today": 3,
       "pending_evaluations": 8,
-      "notices_count": 1
+      "notices_count": 1,
+      "phone": "+91 98450 66778"
     },
     {
       "id": 3,
@@ -250,7 +276,8 @@
       "total_students": 120,
       "classes_today": 2,
       "pending_evaluations": 5,
-      "notices_count": 1
+      "notices_count": 1,
+      "phone": "+91 98450 77889"
     }
   ],
   "subjects": [
@@ -790,7 +817,7 @@
       "venue": "Seminar Hall",
       "organizer": "CSE (ICB) Dept",
       "description": "Distinguished industry lecture on Modern Large Language Models, Multi-Agent Systems, and practical deployment.",
-      "registered_count": 33,
+      "registered_count": 34,
       "is_registered": true
     },
     {
@@ -1248,6 +1275,42 @@
     }
   ],
   "notifications": [
+    {
+      "id": 19,
+      "user_id": 11,
+      "title": "Registered: Technical Talk - AI & ML",
+      "message": "You are confirmed for Technical Talk - AI & ML at Seminar Hall on 2025-10-02.",
+      "type": "event",
+      "is_read": true,
+      "time": "Just now"
+    },
+    {
+      "id": 18,
+      "user_id": 1,
+      "title": "Notice: VTU Exam Timetable Draft",
+      "message": "Prof. Kavya K. S. (Math) released a new Exams notice.",
+      "type": "notice",
+      "is_read": true,
+      "time": "Just now"
+    },
+    {
+      "id": 17,
+      "user_id": 1,
+      "title": "New Study Material Available",
+      "message": "Calculus Double Integrals Lecture Notes has been uploaded to Academic Hub.",
+      "type": "resource",
+      "is_read": true,
+      "time": "Just now"
+    },
+    {
+      "id": 16,
+      "user_id": 1,
+      "title": "New Assignment: Dynamic Data Structures Task",
+      "message": "Prof. Kavya K. S. (Math) published Dynamic Data Structures Task for Programming in C due on 2025-10-20.",
+      "type": "assignment",
+      "is_read": true,
+      "time": "Just now"
+    },
     {
       "id": 15,
       "user_id": 10,

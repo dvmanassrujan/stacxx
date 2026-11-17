@@ -8,8 +8,10 @@
 const AppState = {
   currentRole: 'student', // 'student' | 'teacher' | 'department'
   currentTab: 'dashboard',
+  isAuthenticated: false,
   user: null,
   profile: null,
+  token: null,
   dbStatus: { engine: 'loading', activeRecords: {} },
   unreadNotifsCount: 3,
   notifications: [],
@@ -78,9 +80,8 @@ const NavigationMenus = {
 // ---------------- INITIALIZATION ----------------
 document.addEventListener('DOMContentLoaded', async () => {
   await fetchDbStatus();
-  await switchRole('student', false);
+  await checkAuthSession();
   setupEventListeners();
-  renderApp();
 });
 
 // Universal API Client with automatic Bearer Token & Role headers
@@ -95,7 +96,411 @@ async function apiFetch(url, options = {}) {
   return fetch(url, options);
 }
 
-// Switch Role Function
+// Check session on page reload or load
+async function checkAuthSession() {
+  const token = localStorage.getItem('ksit_portal_token') || sessionStorage.getItem('ksit_portal_token');
+  if (!token) {
+    showLoginView();
+    return false;
+  }
+
+  try {
+    const res = await fetch('/api/auth/me', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (data.success && data.user) {
+      AppState.token = token;
+      AppState.user = data.user;
+      AppState.profile = data.profile;
+      AppState.currentRole = data.user.role;
+      AppState.isAuthenticated = true;
+      showAppView();
+      return true;
+    } else {
+      localStorage.removeItem('ksit_portal_token');
+      sessionStorage.removeItem('ksit_portal_token');
+      showLoginView();
+      return false;
+    }
+  } catch (err) {
+    console.error('Session validation error:', err);
+    showLoginView();
+    return false;
+  }
+}
+
+// Show/Hide View Transitions
+function showLoginView() {
+  const loginView = document.getElementById('loginViewContainer');
+  const appView = document.getElementById('appContainer');
+  if (loginView) loginView.style.display = 'flex';
+  if (appView) appView.style.display = 'none';
+  hideLoginAlert();
+}
+
+function showAppView() {
+  const loginView = document.getElementById('loginViewContainer');
+  const appView = document.getElementById('appContainer');
+  if (loginView) loginView.style.display = 'none';
+  if (appView) appView.style.display = 'flex';
+  updateHeaderAuthMeta();
+  renderApp();
+}
+
+function updateHeaderAuthMeta() {
+  const badge = document.getElementById('authRoleBadge');
+  if (!badge) return;
+
+  const role = AppState.currentRole || 'student';
+  if (role === 'student') {
+    const usn = (AppState.user?.usn || AppState.profile?.usn || AppState.user?.username || '').toUpperCase();
+    badge.innerHTML = `<span>🎓</span> <span>Student Session (${usn})</span>`;
+    badge.style.background = '#ecfeff';
+    badge.style.borderColor = '#a5f3fc';
+    badge.style.color = '#0e7490';
+  } else if (role === 'teacher') {
+    badge.innerHTML = `<span>👨‍🏫</span> <span>Faculty Portal Active</span>`;
+    badge.style.background = '#f5f3ff';
+    badge.style.borderColor = '#ddd6fe';
+    badge.style.color = '#6d28d9';
+  } else {
+    badge.innerHTML = `<span>🏛️</span> <span>HOD / Department Desk</span>`;
+    badge.style.background = '#eff6ff';
+    badge.style.borderColor = '#bfdbfe';
+    badge.style.color = '#1d4ed8';
+  }
+}
+
+// Role Tab Switcher inside Login Page
+function switchLoginRole(role) {
+  document.querySelectorAll('.login-role-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.loginRole === role);
+  });
+
+  document.querySelectorAll('.login-form-pane').forEach(pane => {
+    pane.classList.remove('active');
+  });
+
+  const paneId = role === 'student' ? 'paneStudent' : (role === 'teacher' ? 'paneTeacher' : 'paneDepartment');
+  const activePane = document.getElementById(paneId);
+  if (activePane) activePane.classList.add('active');
+
+  hideLoginAlert();
+}
+
+// Show / Hide Password Helper
+function togglePasswordVisibility(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  const isPass = input.type === 'password';
+  input.type = isPass ? 'text' : 'password';
+  btn.innerHTML = isPass
+    ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="18" height="18"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="18" height="18"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>`;
+}
+
+// Quick Fill Evaluation Helpers
+function quickFillStudent(usn, dob) {
+  const uInput = document.getElementById('studentUsn');
+  const dInput = document.getElementById('studentDob');
+  if (uInput) uInput.value = usn;
+  if (dInput) dInput.value = dob;
+  hideLoginAlert();
+}
+
+function quickFillTeacher(mobile, pass) {
+  const mInput = document.getElementById('teacherMobile');
+  const pInput = document.getElementById('teacherPassword');
+  if (mInput) mInput.value = mobile;
+  if (pInput) pInput.value = pass;
+  hideLoginAlert();
+}
+
+function quickFillDept(staffId, pass) {
+  const sInput = document.getElementById('deptStaffId');
+  const pInput = document.getElementById('deptPassword');
+  if (sInput) sInput.value = staffId;
+  if (pInput) pInput.value = pass;
+  hideLoginAlert();
+}
+
+// Login Alert System
+function showLoginAlert(message, type = 'error') {
+  const box = document.getElementById('loginAlertBox');
+  if (!box) return;
+  box.className = `login-alert ${type}`;
+  const icon = type === 'success' ? '✓' : '⚠️';
+  box.innerHTML = `<strong>${icon}</strong> <span>${message}</span>`;
+  box.style.display = 'flex';
+}
+
+function hideLoginAlert() {
+  const box = document.getElementById('loginAlertBox');
+  if (box) box.style.display = 'none';
+}
+
+// Student Login Form Submission (USN + DOB)
+async function handleStudentLogin(e) {
+  e.preventDefault();
+  const usn = document.getElementById('studentUsn')?.value.trim();
+  const dob = document.getElementById('studentDob')?.value.trim();
+  const remember = document.getElementById('studentRememberMe')?.checked;
+  const btn = document.getElementById('btnStudentSubmit');
+
+  if (!usn || !dob) {
+    showLoginAlert('Please enter both University Seat Number (USN) and Date of Birth.');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = `<span>Verifying credentials...</span>`;
+
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ loginType: 'student', usn, dob, rememberMe: remember })
+    });
+    const data = await res.json();
+
+    if (data.success && data.token) {
+      if (remember) {
+        localStorage.setItem('ksit_portal_token', data.token);
+      } else {
+        sessionStorage.setItem('ksit_portal_token', data.token);
+      }
+      AppState.token = data.token;
+      AppState.user = data.user;
+      AppState.profile = data.profile;
+      AppState.currentRole = 'student';
+      AppState.currentTab = 'dashboard';
+      AppState.isAuthenticated = true;
+
+      showLoginAlert(`Welcome, ${data.user.name}! Authenticated successfully. Redirecting to Student Dashboard...`, 'success');
+
+      setTimeout(() => {
+        showAppView();
+        showToast(`Signed in as Student (${data.user.usn || usn})`);
+        btn.disabled = false;
+        btn.innerHTML = `<span>Sign In to Student Dashboard</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>`;
+      }, 500);
+    } else {
+      showLoginAlert(data.error || 'Authentication failed. Please check USN and Date of Birth.');
+      btn.disabled = false;
+      btn.innerHTML = `<span>Sign In to Student Dashboard</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>`;
+    }
+  } catch (err) {
+    showLoginAlert('Server connection error. Please try again.');
+    btn.disabled = false;
+    btn.innerHTML = `<span>Sign In to Student Dashboard</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>`;
+  }
+}
+
+// Teacher Login Form Submission (Mobile + Password)
+async function handleTeacherLogin(e) {
+  e.preventDefault();
+  const mobile = document.getElementById('teacherMobile')?.value.trim();
+  const password = document.getElementById('teacherPassword')?.value;
+  const remember = document.getElementById('teacherRememberMe')?.checked;
+  const btn = document.getElementById('btnTeacherSubmit');
+
+  if (!mobile || !password) {
+    showLoginAlert('Please enter registered mobile number and password.');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = `<span>Verifying credentials...</span>`;
+
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ loginType: 'teacher', mobile, password, rememberMe: remember })
+    });
+    const data = await res.json();
+
+    if (data.success && data.token) {
+      if (remember) {
+        localStorage.setItem('ksit_portal_token', data.token);
+      } else {
+        sessionStorage.setItem('ksit_portal_token', data.token);
+      }
+      AppState.token = data.token;
+      AppState.user = data.user;
+      AppState.profile = data.profile;
+      AppState.currentRole = 'teacher';
+      AppState.currentTab = 'dashboard';
+      AppState.isAuthenticated = true;
+
+      showLoginAlert(`Welcome back, ${data.user.name}! Redirecting to Faculty Dashboard...`, 'success');
+
+      setTimeout(() => {
+        showAppView();
+        showToast(`Signed in as Faculty (${data.user.name})`);
+        btn.disabled = false;
+        btn.innerHTML = `<span>Sign In to Faculty Dashboard</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>`;
+      }, 500);
+    } else {
+      showLoginAlert(data.error || 'Authentication failed. Please check your credentials.');
+      btn.disabled = false;
+      btn.innerHTML = `<span>Sign In to Faculty Dashboard</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>`;
+    }
+  } catch (err) {
+    showLoginAlert('Server connection error. Please try again.');
+    btn.disabled = false;
+    btn.innerHTML = `<span>Sign In to Faculty Dashboard</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>`;
+  }
+}
+
+// Department Staff Login Form Submission (Staff ID + Password)
+async function handleDeptLogin(e) {
+  e.preventDefault();
+  const staffId = document.getElementById('deptStaffId')?.value.trim();
+  const password = document.getElementById('deptPassword')?.value;
+  const remember = document.getElementById('deptRememberMe')?.checked;
+  const btn = document.getElementById('btnDeptSubmit');
+
+  if (!staffId || !password) {
+    showLoginAlert('Please enter Staff ID and password.');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = `<span>Verifying credentials...</span>`;
+
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ loginType: 'department', staffId, password, rememberMe: remember })
+    });
+    const data = await res.json();
+
+    if (data.success && data.token) {
+      if (remember) {
+        localStorage.setItem('ksit_portal_token', data.token);
+      } else {
+        sessionStorage.setItem('ksit_portal_token', data.token);
+      }
+      AppState.token = data.token;
+      AppState.user = data.user;
+      AppState.profile = data.profile;
+      AppState.currentRole = 'department';
+      AppState.currentTab = 'dashboard';
+      AppState.isAuthenticated = true;
+
+      showLoginAlert(`Welcome back, ${data.user.name}! Redirecting to Department Dashboard...`, 'success');
+
+      setTimeout(() => {
+        showAppView();
+        showToast(`Signed in to Department Desk (${data.user.name})`);
+        btn.disabled = false;
+        btn.innerHTML = `<span>Sign In to Department Desk</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>`;
+      }, 500);
+    } else {
+      showLoginAlert(data.error || 'Authentication failed. Please check Staff ID and password.');
+      btn.disabled = false;
+      btn.innerHTML = `<span>Sign In to Department Desk</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>`;
+    }
+  } catch (err) {
+    showLoginAlert('Server connection error. Please try again.');
+    btn.disabled = false;
+    btn.innerHTML = `<span>Sign In to Department Desk</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>`;
+  }
+}
+
+// User Logout Functionality
+async function handleLogout() {
+  if (!confirm('Are you sure you want to log out of the KSIT Portal?')) {
+    return;
+  }
+
+  try {
+    await fetch('/api/auth/logout', { method: 'POST' });
+  } catch (err) {
+    // Continue resetting local state
+  }
+
+  localStorage.removeItem('ksit_portal_token');
+  sessionStorage.removeItem('ksit_portal_token');
+
+  AppState.token = null;
+  AppState.user = null;
+  AppState.profile = null;
+  AppState.isAuthenticated = false;
+  AppState.currentTab = 'dashboard';
+
+  showLoginView();
+  showToast('You have been logged out securely.');
+}
+
+// Forgot Password Modal Flow for Faculty & Department Staff
+function openForgotPasswordModal(role) {
+  const isTeacher = role === 'teacher';
+  const title = isTeacher ? 'Faculty Password Recovery' : 'Department Staff Password Recovery';
+  const label = isTeacher ? 'Registered Mobile Number' : 'Registered Staff ID / Employee ID';
+  const placeholder = isTeacher ? 'e.g. 98450 55667' : 'e.g. KSIT-HOD-001';
+
+  openModal(title, `
+    <div style="font-size:13.5px;color:#475569;margin-bottom:16px;">
+      Enter your institutional registered ${isTeacher ? 'mobile number' : 'Staff ID'}. We will send a security verification OTP and password reset instructions.
+    </div>
+    <div id="fpAlertBox" style="display:none;padding:10px 14px;border-radius:8px;font-size:12.5px;margin-bottom:14px;"></div>
+    <div class="form-group" style="margin-bottom:16px;">
+      <label style="display:block;font-size:12.5px;font-weight:600;color:#1e293b;margin-bottom:6px;">${label}</label>
+      <input type="text" id="fpIdentifier" class="form-control" placeholder="${placeholder}" required>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:10px;">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitForgotPassword('${role}')">Send Reset Link</button>
+    </div>
+  `);
+}
+
+async function submitForgotPassword(role) {
+  const idInput = document.getElementById('fpIdentifier');
+  const alertBox = document.getElementById('fpAlertBox');
+  if (!idInput || !idInput.value.trim()) {
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = '#fee2e2';
+      alertBox.style.color = '#991b1b';
+      alertBox.innerText = 'Please enter your registered identifier.';
+    }
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/auth/forgot-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ role, identifier: idInput.value.trim() })
+    });
+    const data = await res.json();
+    if (data.success) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = '#dcfce7';
+      alertBox.style.color = '#166534';
+      alertBox.innerText = data.message;
+    } else {
+      alertBox.style.display = 'block';
+      alertBox.style.background = '#fee2e2';
+      alertBox.style.color = '#991b1b';
+      alertBox.innerText = data.error || 'Failed to process request.';
+    }
+  } catch (err) {
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = '#fee2e2';
+      alertBox.style.color = '#991b1b';
+      alertBox.innerText = 'Connection error. Please try again later.';
+    }
+  }
+}
+
+// Switch Role Function (Preserved for compatibility)
 async function switchRole(role, triggerRender = true) {
   AppState.currentRole = role;
   AppState.currentTab = 'dashboard';
@@ -113,14 +518,12 @@ async function switchRole(role, triggerRender = true) {
     }
     AppState.user = data.user;
     AppState.profile = data.profile;
+    AppState.isAuthenticated = true;
   } catch (e) {
     console.error('Login error:', e);
   }
 
-  // Update top role buttons
-  document.querySelectorAll('.role-pill-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.role === role);
-  });
+  updateHeaderAuthMeta();
 
   if (triggerRender) {
     renderApp();
@@ -197,6 +600,10 @@ function setupEventListeners() {
 
 // Render Master Shell
 function renderApp() {
+  if (!AppState.isAuthenticated) {
+    showLoginView();
+    return;
+  }
   renderSidebar();
   renderTopHeaderMeta();
   renderMainView();
@@ -241,6 +648,25 @@ function renderSidebar() {
 
 // Navigation Tab Switcher
 function navigateToTab(tabId) {
+  if (!AppState.isAuthenticated) {
+    showLoginView();
+    return;
+  }
+
+  // Security: Enforce user's actual database role
+  if (AppState.user && AppState.user.role && AppState.currentRole !== AppState.user.role) {
+    AppState.currentRole = AppState.user.role;
+    updateHeaderAuthMeta();
+  }
+
+  // Role authorization guard: verify tab belongs to current role
+  const roleMenu = (NavigationMenus[AppState.currentRole] || []).map(item => item.id);
+  const commonTabs = ['dashboard', 'profile', 'academics', 'notices', 'events'];
+  if (!roleMenu.includes(tabId) && !commonTabs.includes(tabId)) {
+    showToast(`Access Denied: Section '${tabId}' is restricted from role '${AppState.currentRole}'.`);
+    tabId = 'dashboard';
+  }
+
   AppState.currentTab = tabId;
   renderSidebar();
   renderMainView();

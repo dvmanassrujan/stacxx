@@ -16,11 +16,11 @@ INSERT INTO `users` (`id`, `username`, `password_hash`, `role`, `name`, `email`,
 (8, 'dr_kushal', 'password123', 'department', 'Dr. Kushal Kumar B. N.', 'hod.cse@ksit.edu.in', '+91 98450 88990', '/assets/avatars/hod.png');
 
 -- 2. Students
-INSERT INTO `students` (`id`, `user_id`, `usn`, `year`, `semester`, `section`, `department`, `cgpa`, `present_days`, `total_days`, `blood_group`, `mentor_name`) VALUES
-(1, 1, '1KS25IC023', '1st Year', 1, 'A', 'CSE (ICB)', 8.12, 46, 50, 'O+', 'Prof. Kavya K. S. (Math)'),
-(2, 2, '1KS25IC015', '1st Year', 1, 'A', 'CSE (ICB)', 8.45, 48, 50, 'B+', 'Prof. Kavya K. S. (Math)'),
-(3, 3, '1KS25IC033', '1st Year', 1, 'A', 'CSE (ICB)', 8.30, 47, 50, 'A+', 'Prof. Kavya K. S. (Math)'),
-(4, 4, '1KS25IC045', '1st Year', 1, 'A', 'CSE (ICB)', 8.60, 49, 50, 'AB+', 'Prof. Kavya K. S. (Math)');
+INSERT INTO `students` (`id`, `user_id`, `usn`, `year`, `semester`, `section`, `department`, `cgpa`, `present_days`, `total_days`, `blood_group`, `mentor_name`, `dob`, `dob_hash`) VALUES
+(1, 1, '1KS25IC023', '1st Year', 1, 'A', 'CSE (ICB)', 8.12, 46, 50, 'O+', 'Prof. Kavya K. S. (Math)', '2006-04-15', '2006-04-15'),
+(2, 2, '1KS25IC015', '1st Year', 1, 'A', 'CSE (ICB)', 8.45, 48, 50, 'B+', 'Prof. Kavya K. S. (Math)', '2006-08-20', '2006-08-20'),
+(3, 3, '1KS25IC033', '1st Year', 1, 'A', 'CSE (ICB)', 8.30, 47, 50, 'A+', 'Prof. Kavya K. S. (Math)', '2006-01-10', '2006-01-10'),
+(4, 4, '1KS25IC045', '1st Year', 1, 'A', 'CSE (ICB)', 8.60, 49, 50, 'AB+', 'Prof. Kavya K. S. (Math)', '2006-11-05', '2006-11-05');
 
 -- 3. Teachers
 INSERT INTO `teachers` (`id`, `user_id`, `employee_id`, `designation`, `department`, `qualification`, `cabin_no`) VALUES
